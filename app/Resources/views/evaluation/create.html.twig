@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <form action="{{ path('evaluation_create') }}" method="POST">
+        <input type="number" name="evaluation[value]"/>
+        <input type="text" name="evaluation[comment]"/>
+        {{ form_row(form._token) }}
+        <input type="submit">
+    </form>
+{% endblock %}

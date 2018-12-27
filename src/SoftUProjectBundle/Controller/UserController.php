@@ -44,6 +44,6 @@ class UserController extends Controller
             ->getRepository(User::class)
             ->find($userId);
 
-        return $this->render('user/profile.html.twig', ["user"=> $user]);
+        return $this->render('users/profile.html.twig', ["user"=> $user]);
     }
 }

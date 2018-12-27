@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+<table border="1">
+    <tr>
+        <th>Teacher</th>
+        <th>Evaluation</th>
+        <th>Comment</th>
+        <th>Date</th>
+    </tr>
+    {% for evaluation in evaluations %}
+    <tr>
+        <td>{{ evaluation.teacher.fullName }}</td>
+        <td>{{ evaluation.value }}</td>
+        <td>{{ evaluation.comment }}</td>
+        <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}
+
