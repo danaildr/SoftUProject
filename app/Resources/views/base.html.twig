@@ -21,11 +21,19 @@
                         <div>
                             <ul >
                                 {% if app.user %}
+
                                     <li>
-                                        User is logged
+                                        <a href="{{ path('users') }}">
+                                            Users
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('user_profile') }}">
+                                        <a href="{{ path('all_evaluation') }}">
+                                            Evaluation
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/profile/{{ app.user.getId }}">
                                             My Profile
                                         </a>
                                     </li>
@@ -34,6 +42,8 @@
                                             Logout
                                         </a>
                                     </li>
+                                    <li>Hello, {{ app.user.getFullName }}</li>
+
                                 {% else %}
                                     <li>
                                         <a href="{{ path('user_register') }}">

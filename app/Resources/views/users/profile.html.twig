@@ -1,5 +1,58 @@
 {% extends 'base.html.twig' %}
 {% block main %}
 
-    Hello, {{ user.fullName }}
+    {% if app.user %}
+
+    <hr>
+    <table border="1">
+        <tr>
+            <td>Name</td>
+            <td>{{ user.fullName }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <td>Adres</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Byrth day</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Roles</td>
+            <td>
+                {{ user.getRoles() | join(' | ') }}
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <table border="2">
+        <tr>
+            <th>Value</th>
+            <th>Comment</th>
+            <th>Teacher</th>
+            <th>Date</th>
+        </tr>
+        {% for evaluation in evaluations %}
+        <tr>
+            <td>{{ evaluation.value }}</td>
+            <td>{{ evaluation.comment }}</td>
+            <td>{{ evaluation.teacher.fullName }}</td>
+            <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
+    {% endif %}
+
 {% endblock %}

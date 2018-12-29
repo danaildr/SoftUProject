@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    {% if app.user %}
+
+    <a href="{{ path('newuser_register') }}">Create new User</a>
+    <table border="1">
+        <tr><td colspan="3">Admins</td></tr>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+
+        </tr>
+        {% for admin in admins %}
+
+            <tr>
+                <td><a href="/profile/{{ admin.id }}">{{ admin.fullName }}</a></td>
+                <td>{{ admin.email }}</td>
+
+            </tr>
+        {% endfor %}
+        <tr><td colspan="3">Teachers</td></tr>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+
+        </tr>
+        {% for teacher in teachers %}
+
+            <tr>
+                <td><a href="/profile/{{ teacher.id }}">{{ teacher.fullName }}</a></td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.getRoles() | join(' | ') }}</td>
+            </tr>
+        {% endfor %}
+        <tr><td colspan="3">Students</td></tr>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+
+        </tr>
+        {% for student in students %}
+
+            <tr>
+                <td><a href="/profile/{{ student.id }}">{{ student.fullName }}</a> </td>
+                <td>{{ student.email }}</td>
+                <td>
+                    <a href="/evaluation/create/{{ student.id }}">
+                        Give Evaluation
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+
+{% endblock %}
+

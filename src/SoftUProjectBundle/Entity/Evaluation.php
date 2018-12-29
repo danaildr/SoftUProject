@@ -56,10 +56,26 @@ class Evaluation
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="SoftUProjectBundle\Entity\User", inversedBy="evaluations")
-     * @ORM\JoinColumn(name="auyhotId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="authorId", referencedColumnName="id")
      *
      */
     private $teacher;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="recepientId", type="integer")
+     */
+    private $recipient;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="SoftUProjectBundle\Entity\User", inversedBy="reseivedevaluations")
+     * @ORM\JoinColumn(name="recepientId", referencedColumnName="id")
+     *
+     */
+    private $student;
 
     public function __construct()
     {
@@ -180,6 +196,38 @@ class Evaluation
     {
         $this->teacher = $teacher;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRecipient()
+    {
+        return $this->recipient;
+    }
+
+    /**
+     * @param int $recipient
+     */
+    public function setRecipient($recipient)
+    {
+        $this->recipient = $recipient;
+    }
+
+    /**
+     * @return User
+     */
+    public function getStudent()
+    {
+        return $this->student;
+    }
+
+    /**
+     * @param User $student
+     */
+    public function setStudent($student)
+    {
+        $this->student = $student;
     }
 
 

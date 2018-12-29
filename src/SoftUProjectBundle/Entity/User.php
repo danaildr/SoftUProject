@@ -51,10 +51,29 @@ class User implements UserInterface
      */
     private $evaluations;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="SoftUProjectBundle\Entity\Evaluation", mappedBy="student")
+     */
+    private $reseivedevaluations;
+
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="SoftUProjectBundle\Entity\Role")
+     * @ORM\JoinTable(name="users_roles",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     *     )
+     */
+    private $roles;
 
     public function __construct()
     {
         $this->evaluations=new ArrayCollection();
+        $this->roles=new ArrayCollection();
     }
 
     /**
@@ -155,7 +174,34 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        return [];
+        $stringRoles=[];
+        foreach ($this->roles as $role){
+            /** @var Role $role */
+            $stringRoles[]=$role->getRole();
+        }
+        return $stringRoles;
+    }
+    /**
+     * @param Role $role
+     *
+     * @return  User
+     */
+    public function addRole(Role $role)
+    {
+        $this->roles[] = $role;
+        return $this;
+    }
+
+
+    /**
+     * @param Role $role
+     *
+     * @return  User
+     */
+    public function setRoles(Role $role)
+    {
+        $this->roles[] = $role;
+        return $this;
     }
 
     /**
@@ -209,5 +255,25 @@ class User implements UserInterface
         $this->evaluations[]= $evaluation;
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getReseivedevaluations()
+    {
+        return $this->reseivedevaluations;
+    }
+
+    /**
+     * @param Evaluation $reseivedevaluation
+     *
+     * @return User
+     */
+    public function setReseivedevaluations($reseivedevaluation)
+    {
+        $this->reseivedevaluations[] = $reseivedevaluation;
+        return $this;
+    }
+
 }
 
