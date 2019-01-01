@@ -36,21 +36,11 @@ class DefaultController extends Controller
                 if($role === "ROLES_ADMIN"){
                     $admins[]=$user;
                 }
-            }
-        }
-        foreach ($users as $user){
-            $roles=$user->getRoles();
-            foreach ($roles as $role){
-                if($role === "ROLES_TEACHER"){
-                    $teachers[]=$user;
-                }
-            }
-        }
-        foreach ($users as $user){
-            $roles=$user->getRoles();
-            foreach ($roles as $role){
                 if($role === "ROLES_STUDENT"){
                     $students[]=$user;
+                }
+                if($role === "ROLES_TEACHER"){
+                    $teachers[]=$user;
                 }
             }
         }

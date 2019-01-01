@@ -70,6 +70,34 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="birthday", type="datetime")
+     */
+    private $birthday;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=255)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->evaluations=new ArrayCollection();
@@ -194,13 +222,13 @@ class User implements UserInterface
 
 
     /**
-     * @param Role $role
+     * @param Role[] $roles
      *
      * @return  User
      */
-    public function setRoles(Role $role)
+    public function setRoles(Role $roles)
     {
-        $this->roles[] = $role;
+        $this->roles = $roles;
         return $this;
     }
 
@@ -273,6 +301,83 @@ class User implements UserInterface
     {
         $this->reseivedevaluations[] = $reseivedevaluation;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * @param \DateTime $birthday
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAdmin(){
+        $roles=$this->getRoles();
+        foreach ($roles as $role){
+            if($role == "ROLES_ADMIN"){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

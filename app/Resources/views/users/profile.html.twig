@@ -4,6 +4,19 @@
     {% if app.user %}
 
     <hr>
+    {% if user.id is same as (app.user.id) or app.user.isAdmin %}
+        <ul>
+            <li>
+                <a href="/profile/{{ user.id }}/edit">Edit Profile</a>
+            </li>
+            {% if app.user.isAdmin %}
+            <li>
+                <a href="/profile/{{ user.id }}/edit/roles">Edit/Give roles</a>
+            </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+    <hr>
     <table border="1">
         <tr>
             <td>Name</td>
@@ -15,15 +28,15 @@
         </tr>
         <tr>
             <td>Adres</td>
-            <td></td>
+            <td>{{ user.city }} {{ user.address }}</td>
         </tr>
         <tr>
             <td>Byrth day</td>
-            <td></td>
+            <td>{{ user.birthday | date("d/M/Y") }}</td>
         </tr>
         <tr>
             <td>Phone</td>
-            <td></td>
+            <td>{{ user.phone }}</td>
         </tr>
         <tr>
             <td>Roles</td>

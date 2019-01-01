@@ -31,7 +31,7 @@
             <tr>
                 <td><a href="/profile/{{ teacher.id }}">{{ teacher.fullName }}</a></td>
                 <td>{{ teacher.email }}</td>
-                <td>{{ teacher.getRoles() | join(' | ') }}</td>
+                <td>{{ teacher.Roles() | join(' | ') }}</td>
             </tr>
         {% endfor %}
         <tr><td colspan="3">Students</td></tr>
