@@ -26,10 +26,12 @@ class EvaluationController extends Controller
         if($form->isSubmitted() && $form->isValid()){
             $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
             $currentTeacher=$this->getUser();
+            $evaluation->setCourseid($evaluation->getCourse()->getId());
             $evaluation->setTeacher($currentTeacher);
             $evaluation->setAuthorId($currentTeacher->getId());
             $evaluation->setStudent($currentStudent);
             $evaluation->setRecipient($currentStudent->getId());
+
             $em=$this->getDoctrine()->getManager();
             $em->persist($evaluation);
             $em->flush();
@@ -47,4 +49,16 @@ class EvaluationController extends Controller
         $evaluations = $this->getDoctrine()->getRepository(Evaluation::class)->findAll();
         return $this->render("evaluation/showevaluations.html.twig", ["evaluations"=>$evaluations]);
     }
+
+    /**
+     * @Route("/evaluation/{id}")
+     * @param int $id
+     */
+    public function showOneEvaluation(int $id){
+        $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
+
+        return $this->render('evaluation/evalluation.html.twig', array('evaluation'=>$evaluation));
+
+    }
+
 }

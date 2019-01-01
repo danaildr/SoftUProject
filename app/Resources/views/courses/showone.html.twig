@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <hr>
+    <h3>{{ course.name }}</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>Teacher</th>
+            <th>Student</th>
+            <th>Evaluation</th>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+        {% for evaluation in evaluations %}
+            <tr>
+                <td>{{ evaluation.teacher.fullName }}</td>
+                <td>{{ evaluation.student.fullName }}</td>
+                <td>{{ evaluation.value }}</td>
+                <td>{{ evaluation.comment }}</td>
+                <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

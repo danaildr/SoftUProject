@@ -77,6 +77,21 @@ class Evaluation
      */
     private $student;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="courseId", type="integer")
+     */
+    private $courseid;
+
+    /**
+     * @var Course
+     *
+     * @ORM\ManyToOne(targetEntity="SoftUProjectBundle\Entity\Course", inversedBy="evaluations")
+     * @ORM\JoinColumn(name="coursesId", referencedColumnName="id")
+     */
+    private $course;
+
     public function __construct()
     {
         $this->dateAdded = new \DateTime();
@@ -230,6 +245,37 @@ class Evaluation
         $this->student = $student;
     }
 
+    /**
+     * @return Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * @param Course $course
+     */
+    public function setCourse($course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCourseid()
+    {
+        return $this->courseid;
+    }
+
+    /**
+     * @param int $courseid
+     */
+    public function setCourseid($courseid)
+    {
+        $this->courseid = $courseid;
+    }
 
 }
 

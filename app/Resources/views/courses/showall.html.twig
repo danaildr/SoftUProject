@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <hr>
+    <a href="{{ path('course_create') }}">Create course</a>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>Course</th>
+        </tr>
+        {% for course in courses %}
+        <tr>
+            <td><a href="/courses/{{ course.id }}">{{ course.name }}</a></td>
+            <td>{{ dump(course) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

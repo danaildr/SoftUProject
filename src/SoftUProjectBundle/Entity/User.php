@@ -373,7 +373,7 @@ class User implements UserInterface
     public function isAdmin(){
         $roles=$this->getRoles();
         foreach ($roles as $role){
-            if($role == "ROLES_ADMIN"){
+            if($role === "ROLES_ADMIN"){
                 return true;
             }
         }

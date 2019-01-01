@@ -65,8 +65,9 @@ class UserController extends Controller
             ->getRepository(User::class)
             ->find($id);
         $evaluations=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(["recipient"=>$id]);
+        $giveEvaluation=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(["authorId"=>$id]);
 
-        return $this->render('users/profile.html.twig', ["user"=> $user, "evaluations"=>$evaluations]);
+        return $this->render('users/profile.html.twig', ["user"=> $user, "evaluations"=>$evaluations, "giveEvaluation"=>$giveEvaluation]);
     }
 
     /**

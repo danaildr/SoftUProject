@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <hr>
+        <h4>Evaluation number: {{ evaluation.id }}</h4>
+    <hr>
+        Teacher: <a href="/profile/{{ evaluation.authorId }}">{{ evaluation.teacher.fullName }}</a><br>
+        Student: <a href="/profile/{{ evaluation.recipient }}">{{ evaluation.student.fullName }}</a><br>
+        Course: <a href="/profile/{{ evaluation.courseid }}">{{ evaluation.course.name }}</a><br>
+        Date: {{ evaluation.dateAdded | date("d/M/Y")}}<br>
+        Comment: {{ evaluation.comment }}
+{% endblock %}
+

@@ -47,6 +47,7 @@
     </table>
     <hr>
     <table border="2">
+        <tr><th colspan="4">Reseaved evaluation</th> </tr>
         <tr>
             <th>Value</th>
             <th>Comment</th>
@@ -59,9 +60,28 @@
             <td>{{ evaluation.comment }}</td>
             <td>{{ evaluation.teacher.fullName }}</td>
             <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+            <td><a href="/evaluation/{{ evaluation.id }}">View</a></td>
         </tr>
         {% endfor %}
     </table>
+        <table border="2">
+            <tr><th  colspan="4">Gived evaluation</th> </tr>
+            <tr>
+                <th>Value</th>
+                <th>Comment</th>
+                <th>Student</th>
+                <th>Date</th>
+            </tr>
+            {% for giveEvaluation in giveEvaluation %}
+                <tr>
+                    <td>{{ giveEvaluation.value }}</td>
+                    <td>{{ giveEvaluation.comment }}</td>
+                    <td>{{ giveEvaluation.student.fullName }}</td>
+                    <td>{{ giveEvaluation.dateAdded| date("d/M/Y") }}</td>
+                    <td><a href="/evaluation/{{ giveEvaluation.id }}">View</a></td>
+                </tr>
+            {% endfor %}
+        </table>
     {% else %}
         <hr>
         Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
