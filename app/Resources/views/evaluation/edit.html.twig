@@ -5,15 +5,15 @@
     {% if app.user %}
         <div class="container body-content span=8 offset=2">
             <div class="well">
-                <form class="form-horizontal" action="/evaluation/create/{{ currentStudent.id }}" method="POST">
+                <form class="form-horizontal" action="/evaluation/{{ evaluation.id }}/edit" method="POST">
                     <fieldset>
-                        <legend>New evaluation</legend>
+                        <legend>Edit evaluation</legend>
 
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="evaluation_value">Evaluation value</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="evaluation_value" placeholder="Evaluation value"
-                                       name="evaluation[value]">
+                                       name="evaluation[value]" value="{{ evaluation.id }}">
                             </div>
                         </div>
 
@@ -21,7 +21,7 @@
                             <label class="col-sm-4 control-label" for="evaluation_content">Content</label>
                             <div class="col-sm-6">
                         <textarea class="form-control" rows="6" id="evaluation_content"
-                                  name="evaluation[comment]"></textarea>
+                                  name="evaluation[comment]" >{{ evaluation.comment }}</textarea>
                             </div>
                         </div>
                         {{ form_row(evform.course) }}

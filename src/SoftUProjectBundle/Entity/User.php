@@ -207,7 +207,9 @@ class User implements UserInterface
             /** @var Role $role */
             $stringRoles[]=$role->getRole();
         }
-        return $stringRoles;
+       return $stringRoles;
+//        return $this->roles;
+
     }
     /**
      * @param Role $role
@@ -367,11 +369,22 @@ class User implements UserInterface
         $this->phone = $phone;
     }
 
+    public function getStringRoles()
+    {
+        $stringRoles=[];
+        foreach ($this->roles as $role){
+            /** @var Role $role */
+            $stringRoles[]=$role->getRole();
+        }
+        return $stringRoles;
+        //return $this->roles;
+    }
+
     /**
      * @return boolean
      */
     public function isAdmin(){
-        $roles=$this->getRoles();
+        $roles=$this->getStringRoles();
         foreach ($roles as $role){
             if($role === "ROLES_ADMIN"){
                 return true;
@@ -379,6 +392,26 @@ class User implements UserInterface
         }
         return false;
     }
-
+    /**
+     * @return boolean
+     */
+    public function isStudent(){
+        $roles=$this->getStringRoles();
+        foreach ($roles as $role){
+            if($role === "ROLES_STUDENT"){
+                return true;
+            }
+        }
+        return false;
+    }
+    public function isTeacher(){
+        $roles=$this->getStringRoles();
+        foreach ($roles as $role){
+            if($role === "ROLES_TEACHER"){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

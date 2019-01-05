@@ -1,4 +1,4 @@
-create table courses
+create table if not exists courses
 (
   id   int auto_increment
     primary key,
@@ -8,7 +8,7 @@ create table courses
 )
   collate = utf8_unicode_ci;
 
-create table roles
+create table if not exists roles
 (
   id   int auto_increment
     primary key,
@@ -18,7 +18,7 @@ create table roles
 )
   collate = utf8_unicode_ci;
 
-create table users
+create table if not exists users
 (
   id       int auto_increment
     primary key,
@@ -34,7 +34,7 @@ create table users
 )
   collate = utf8_unicode_ci;
 
-create table evaluations
+create table if not exists evaluations
 (
   id          int auto_increment
     primary key,
@@ -43,27 +43,27 @@ create table evaluations
   dateAdded   datetime not null,
   authorId    int      not null,
   recepientId int      not null,
-  courceId    int      null,
   courseId    int      not null,
+  coursesId   int      null,
   constraint FK_3B72691D76C6E161
   foreign key (recepientId) references users (id),
-  constraint FK_3B72691D92AE6BCB
-  foreign key (courceId) references courses (id),
   constraint FK_3B72691DA196F9FD
-  foreign key (authorId) references users (id)
+  foreign key (authorId) references users (id),
+  constraint FK_3B72691DFDCF52B4
+  foreign key (coursesId) references courses (id)
 )
   collate = utf8_unicode_ci;
 
 create index IDX_3B72691D76C6E161
   on evaluations (recepientId);
 
-create index IDX_3B72691D92AE6BCB
-  on evaluations (courceId);
-
 create index IDX_3B72691DA196F9FD
   on evaluations (authorId);
 
-create table users_roles
+create index IDX_3B72691DFDCF52B4
+  on evaluations (coursesId);
+
+create table if not exists users_roles
 (
   user_id int not null,
   role_id int not null,

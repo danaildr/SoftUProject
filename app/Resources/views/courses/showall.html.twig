@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <hr>
-    <a href="{{ path('course_create') }}">Create course</a>
-    <hr>
-    <table border="1">
-        <tr>
-            <th>Course</th>
-        </tr>
+{% block main %}
+        <h1 class="display-5">Hello, {{ app.user.fullName }}!</h1>
+        <hr class="my-4">
+        {% if app.user.isAdmin %}
+            <p class="lead">Create new course</p>
+            <a type="button" class="btn btn-primary" href="{{ path('course_create') }}">Create course</a><br>
+            <hr class="my-4">
+        {% endif %}
+        <p class="lead">you have access to the following courses:</p>
         {% for course in courses %}
-        <tr>
-            <td><a href="/courses/{{ course.id }}">{{ course.name }}</a></td>
-            <td>{{ dump(course) }}</td>
-        </tr>
+            <a type="button" class="btn btn-success" href="/courses/{{ course.id }}">{{ course.name }}</a>
         {% endfor %}
-    </table>
+        <hr class="my-4">
 {% endblock %}
 

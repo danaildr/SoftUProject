@@ -28,17 +28,23 @@ class Course
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text")
+     */
+    private $content;
 
-//    /**
-//     * @var ArrayCollection
-//     *
-//     * @ORM\OneToMany(targetEntity="SoftUProjectBundle\Entity\Evaluation", mappedBy="course")
-//     */
-//    private $evaluations;
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="SoftUProjectBundle\Entity\Evaluation", mappedBy="course")
+     */
+    private $evaluations;
 
     public function __construct()
     {
-       // $this->evaluations = new ArrayCollection();
+        $this->evaluations = new ArrayCollection();
     }
 
     /**
@@ -75,21 +81,38 @@ class Course
         return $this->name;
     }
 
-//    /**
-//     * @return ArrayCollection
-//     */
-//    public function getEvaluations()
-//    {
-//        return $this->evaluations;
-//    }
-//
-//    /**
-//     * @param ArrayCollection $evaluations
-//     */
-//    public function setEvaluations($evaluations)
-//    {
-//        $this->evaluations = $evaluations;
-//    }
+    /**
+     * @return ArrayCollection
+     */
+    public function getEvaluations()
+    {
+        return $this->evaluations;
+    }
+
+    /**
+     * @param ArrayCollection $evaluations
+     */
+    public function setEvaluations($evaluations)
+    {
+        $this->evaluations = $evaluations;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
 
 }
 

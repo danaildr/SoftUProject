@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <hr>
+        <div>This User is: {{ user.roles | join (' | ') }}</div>
+    <hr>
+        <div>Make this user:
+            {% for role in roles  %}
+                {% if not user.admin and role.name == 'ROLES_ADMIN' %}
+                    <a href="/profile/{{ user.id }}/add/roles/ROLES_ADMIN">Admin </a>
+                {% endif %}
+                {% if not user.teacher and role.name == 'ROLES_TEACHER' %}
+                    <a href="/profile/{{ user.id }}/add/roles/ROLES_TEACHER">Teacher </a>
+                {% endif %}
+                {% if not user.student and role.name == 'ROLES_STUDENT' %}
+                    <a href="/profile/{{ user.id }}/add/roles/ROLES_STUDENT">Student </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+{% endblock %}

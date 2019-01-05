@@ -1,13 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block main %}
+       {% if app.user %}
+           <h1 class="display-5">Hello, {{ app.user.fullName }}</h1>
+           <Hr class="my-4">
+           <table class="table">
+               <tr><th colspan="5">Reseaved evaluation</th> </tr>
+               <tr>
+                   <th>Course</th>
+                   <th>Value</th>
+                   <th>Comment</th>
+                   <th>Teacher</th>
+                   <th>Date</th>
+               </tr>
+               {% for evaluation in evaluations %}
+                   <tr>
+                       <td>{{ evaluation.course.name }}</td>
+                       <td>{{ evaluation.value }}</td>
+                       <td>{{ evaluation.comment }}</td>
+                       <td>{{ evaluation.teacher.fullName }}</td>
+                       <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+                       <td><a class="btn btn-success" href="/evaluation/{{ evaluation.id }}">View</a></td>
+                   </tr>
+               {% endfor %}
+           </table>
+           <hr>
+           <table class="table">
+               <tr><th  colspan="6">Gived evaluation</th> </tr>
+               <tr>
+                   <th>Course</th>
+                   <th>Value</th>
+                   <th>Comment</th>
+                   <th>Student</th>
+                   <th colspan="2">Date</th>
+               </tr>
+               {% for giveEvaluation in giveEvaluation %}
+                   <tr>
+                       <td>{{ giveEvaluation.course.name }}</td>
+                       <td>{{ giveEvaluation.value }}</td>
+                       <td>{{ giveEvaluation.comment }}</td>
+                       <td>{{ giveEvaluation.student.fullName }}</td>
+                       <td>{{ giveEvaluation.dateAdded| date("d/M/Y") }}</td>
+                       <td><a class="btn btn-success" href="/evaluation/{{ giveEvaluation.id }}">View</a></td>
+                   </tr>
+               {% endfor %}
+           </table>
+       {% else %}
+           <hr>
+           Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+           <hr>
+       {% endif %}
 
-    {% if app.user %}
-        This is Dashboard
-    {% else %}
-        <hr>
-        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
-        <hr>
-    {% endif %}
 {% endblock %}
 

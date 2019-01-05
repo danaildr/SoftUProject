@@ -2,12 +2,16 @@
 
 namespace SoftUProjectBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Connection;
 use SoftUProjectBundle\Entity\Evaluation;
 use SoftUProjectBundle\Entity\Role;
 use SoftUProjectBundle\Entity\User;
 use SoftUProjectBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,11 +36,28 @@ class UserController extends Controller
             return $this->redirectToRoute("security_login");
         }else{
             $user=new User();
-            $form = $this->createFormBuilder($user)
+            $form =  $this->createFormBuilder( $user)
                 ->add('email', TextType::class)
-                ->add('password', TextType::class)
+                ->add('password', RepeatedType::class, array(
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => array('attr' => array('class' => 'password-field')),
+                    'required' => true,
+                    'first_options'  => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password')))
                 ->add('fullName', TextType::class)
-                ->add('register', SubmitType::class)
+                ->add('city', TextType::class)
+                ->add('address', TextType::class)
+                ->add('phone', TextType::class)
+                ->add('birthday', DateType::class, array('widget' => 'single_text'))
+//  TODO: changete generate checkbox
+//            ->add('roles', EntityType::class , array(
+//                'class'=>Role::class,
+//                    'choice_label' => 'name',
+//                    'multiple' => true,
+//                )
+//            )
+                ->add("Save", SubmitType::class)
                 ->getForm();
             $form->handleRequest($request);
             if($form->isSubmitted()){

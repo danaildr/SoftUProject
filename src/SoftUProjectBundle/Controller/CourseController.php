@@ -26,6 +26,7 @@ class CourseController extends Controller
      */
     public function createCourse(Request $request)
     {
+        $errorMsg='';
         $course=new Course();
         $form= $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
@@ -36,7 +37,7 @@ class CourseController extends Controller
             return $this->redirectToRoute("courses");
         }
 
-        return $this->render('courses/create.html.twig', array('courseForm' => $form->createView()));
+        return $this->render('courses/create.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg));
     }
 
     /**
@@ -47,6 +48,10 @@ class CourseController extends Controller
     public function showOneCourse(int $id){
         $course=$this->getDoctrine()->getRepository(Course::class)->find($id);
         $evaluations=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(array("courseid"=>$id));
+        if($course===null){
+            $errorMsg = "Not found this course!";
+            return $this->render('default/dashboard.html.twig', array('errorMsg'=>$errorMsg));
+        }
 
         return $this->render('courses/showone.html.twig', array('course'=>$course, 'evaluations'=>$evaluations));
     }

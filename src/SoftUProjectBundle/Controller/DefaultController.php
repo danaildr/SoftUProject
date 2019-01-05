@@ -3,6 +3,7 @@
 namespace SoftUProjectBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SoftUProjectBundle\Entity\Evaluation;
 use SoftUProjectBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,17 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/dashboard.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $evaluaions=[];
+        $giveEvaluaions=[];
+        $currentUser = $this->getUser();
+        if($currentUser !== null){
+            $currentUserId=$currentUser->getId();
+                $evaluaions=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(array("recipient"=>$currentUserId), array("courseid"=>'DESC'));
+            $giveEvaluaions=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(array("authorId"=>$currentUserId), array("courseid"=>'ASC', "dateAdded"=>'DESC'));
+        }
+
+
+        return $this->render('default/dashboard.html.twig', array('evaluations'=>$evaluaions, 'giveEvaluation'=>$giveEvaluaions));
     }
 
     /**

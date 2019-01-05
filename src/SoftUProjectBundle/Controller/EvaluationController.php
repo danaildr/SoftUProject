@@ -19,34 +19,39 @@ class EvaluationController extends Controller
      */
     public function createAction(Request $request, int $id)
     {
-        // TODO - да се оправи създаването, като се приема id на ученика и предмета
         $evaluation = new Evaluation();
-        $form=$this->createForm(EvaluationType::class, $evaluation);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        $currentUser=$this->getUser();
+        if($currentUser->isTeacher()){
+            $form=$this->createForm(EvaluationType::class, $evaluation);
+            $form->handleRequest($request);
             $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
-            $currentTeacher=$this->getUser();
-            $evaluation->setCourseid($evaluation->getCourse()->getId());
-            $evaluation->setTeacher($currentTeacher);
-            $evaluation->setAuthorId($currentTeacher->getId());
-            $evaluation->setStudent($currentStudent);
-            $evaluation->setRecipient($currentStudent->getId());
+            if($form->isSubmitted() && $form->isValid()){
 
-            $em=$this->getDoctrine()->getManager();
-            $em->persist($evaluation);
-            $em->flush();
+                $currentTeacher=$this->getUser();
+                $evaluation->setCourseid($evaluation->getCourse()->getId());
+                // $evaluation->setCourse();
+                $evaluation->setTeacher($currentTeacher);
+                $evaluation->setAuthorId($currentTeacher->getId());
+                $evaluation->setStudent($currentStudent);
+                $evaluation->setRecipient($currentStudent->getId());
 
-            return $this->redirectToRoute("all_evaluation");
+                $em=$this->getDoctrine()->getManager();
+                $em->persist($evaluation);
+                $em->flush();
+
+                return $this->redirectToRoute("all_evaluation");
+            }
+
+            return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView(), 'currentStudent'=>$currentStudent]);
         }
-
-        return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView()]);
+        return $this->redirectToRoute('homepage');
     }
 
     /**
      * @Route("/evaluation", name="all_evaluation")
      */
     public function showAllEvalution(){
-        $evaluations = $this->getDoctrine()->getRepository(Evaluation::class)->findAll();
+        $evaluations = $this->getDoctrine()->getRepository(Evaluation::class)->findBy(array(),array("dateAdded"=>'DESC', 'course'=>'DESC'));
         return $this->render("evaluation/showevaluations.html.twig", ["evaluations"=>$evaluations]);
     }
 
@@ -61,4 +66,39 @@ class EvaluationController extends Controller
 
     }
 
+    /**
+     * @Route("/evaluation/{id}/edit", name="edit_evaluation")
+     *
+     *
+     */
+    public function editEvaluation(Request $request, int $id)
+    {
+        $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
+        $currentUser=$this->getUser();
+        if($currentUser->isTeacher()){
+            $form=$this->createForm(EvaluationType::class, $evaluation);
+            $form->handleRequest($request);
+            $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
+            if($form->isSubmitted() && $form->isValid()){
+
+                $currentTeacher=$this->getUser();
+                $evaluation->setCourseid($evaluation->getCourse()->getId());
+                // $evaluation->setCourse();
+//                $evaluation->setTeacher($currentTeacher);
+//                $evaluation->setAuthorId($currentTeacher->getId());
+//                $evaluation->setStudent($currentStudent);
+//                $evaluation->setRecipient($currentStudent->getId());
+
+                $em=$this->getDoctrine()->getManager();
+                $em->persist($evaluation);
+                $em->flush();
+
+                return $this->redirectToRoute("all_evaluation");
+            }
+
+            return $this->render('evaluation/edit.html.twig', ['evaluation'=>$evaluation,"evform"=>$form->createView(), 'currentStudent'=>$currentStudent]);
+        }
+
+        return $this->render('evaluation/edit.html.twig');
+    }
 }

@@ -1,27 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-    <hr>
-    <h3>{{ course.name }}</h3>
-    <hr>
-    <table border="1">
-        <tr>
-            <th>Teacher</th>
-            <th>Student</th>
-            <th>Evaluation</th>
-            <th>Comment</th>
-            <th>Date</th>
-        </tr>
-        {% for evaluation in evaluations %}
+{% block main %}
+    {% if app.user %}
+        <h1 class="display-5">{{ course.name }}</h1>
+        <hr class="my-4">
+        <p class="lead">{{ course.content }}</p>
+        <hr class="my-4">
+        <p class="lead">All ratings for the {{ course.name }} course</p>
+        <hr class="my-4">
+        <table class="table table-striped">
             <tr>
-                <td>{{ evaluation.teacher.fullName }}</td>
-                <td>{{ evaluation.student.fullName }}</td>
-                <td>{{ evaluation.value }}</td>
-                <td>{{ evaluation.comment }}</td>
-                <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+                <th>Teacher</th>
+                <th>Student</th>
+                <th>Evaluation</th>
+                <th>Comment</th>
+                <th>Date</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for evaluation in evaluations %}
+                <tr>
+                    <td>{{ evaluation.teacher.fullName }}</td>
+                    <td>{{ evaluation.student.fullName }}</td>
+                    <td>{{ evaluation.value }}</td>
+                    <td>{{ evaluation.comment }}</td>
+                    <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a type="button" class="btn btn-dark" href="{{ path('courses') }}">Back to courses</a>
+    {% endif %}
 {% endblock %}
 

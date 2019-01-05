@@ -2,6 +2,7 @@
 
 namespace SoftUProjectBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Validator\Constraints\Date;
@@ -95,6 +96,7 @@ class Evaluation
     public function __construct()
     {
         $this->dateAdded = new \DateTime();
+        $this->course=new ArrayCollection();
     }
 
     /**
