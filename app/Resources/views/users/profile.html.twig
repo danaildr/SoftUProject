@@ -3,85 +3,32 @@
 
     {% if app.user %}
 
-    <hr>
-    {% if user.id is same as (app.user.id) or app.user.isAdmin %}
-        <ul>
-            <li>
-                <a href="/profile/{{ user.id }}/edit">Edit Profile</a>
-            </li>
+        <hr class="my-4">
+        <p class="lead">
+            Name: {{ user.fullName }}
+        </p>
+        <p class="lead">
+            Email: {{ user.email }}
+        </p>
+        <p class="lead">
+            Adres: {{ user.city }} {{ user.address }}
+        </p>
+        <p class="lead">
+            Byrth day: {{ user.birthday | date("d/M/Y") }}
+        </p>
+        <p class="lead">
+            Phone: {{ user.phone }}
+        </p>
+        <p class="lead">
+            User roles:  {{ user.getRoles() | join(' | ') }}
+        </p>
+
+        {% if user.id is same as (app.user.id) or app.user.isAdmin %}
+            <a class="btn btn-warning" href="/profile/{{ user.id }}/edit">Edit Profile</a>
             {% if app.user.isAdmin %}
-            <li>
-                <a href="/profile/{{ user.id }}/edit/roles">Edit/Give roles</a>
-            </li>
+                <a class="btn btn-primary" href="/profile/{{ user.id }}/edit/roles">Edit/Give roles</a>
             {% endif %}
-        </ul>
-    {% endif %}
-    <hr>
-    <table border="1">
-        <tr>
-            <td>Name</td>
-            <td>{{ user.fullName }}</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>{{ user.email }}</td>
-        </tr>
-        <tr>
-            <td>Adres</td>
-            <td>{{ user.city }} {{ user.address }}</td>
-        </tr>
-        <tr>
-            <td>Byrth day</td>
-            <td>{{ user.birthday | date("d/M/Y") }}</td>
-        </tr>
-        <tr>
-            <td>Phone</td>
-            <td>{{ user.phone }}</td>
-        </tr>
-        <tr>
-            <td>Roles</td>
-            <td>
-                {{ user.getRoles() | join(' | ') }}
-            </td>
-        </tr>
-    </table>
-    {#<hr>#}
-    {#<table border="2">#}
-        {#<tr><th colspan="4">Reseaved evaluation</th> </tr>#}
-        {#<tr>#}
-            {#<th>Value</th>#}
-            {#<th>Comment</th>#}
-            {#<th>Teacher</th>#}
-            {#<th>Date</th>#}
-        {#</tr>#}
-        {#{% for evaluation in evaluations %}#}
-        {#<tr>#}
-            {#<td>{{ evaluation.value }}</td>#}
-            {#<td>{{ evaluation.comment }}</td>#}
-            {#<td>{{ evaluation.teacher.fullName }}</td>#}
-            {#<td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>#}
-            {#<td><a href="/evaluation/{{ evaluation.id }}">View</a></td>#}
-        {#</tr>#}
-        {#{% endfor %}#}
-    {#</table>#}
-        {#<table border="2">#}
-            {#<tr><th  colspan="4">Gived evaluation</th> </tr>#}
-            {#<tr>#}
-                {#<th>Value</th>#}
-                {#<th>Comment</th>#}
-                {#<th>Student</th>#}
-                {#<th>Date</th>#}
-            {#</tr>#}
-            {#{% for giveEvaluation in giveEvaluation %}#}
-                {#<tr>#}
-                    {#<td>{{ giveEvaluation.value }}</td>#}
-                    {#<td>{{ giveEvaluation.comment }}</td>#}
-                    {#<td>{{ giveEvaluation.student.fullName }}</td>#}
-                    {#<td>{{ giveEvaluation.dateAdded| date("d/M/Y") }}</td>#}
-                    {#<td><a href="/evaluation/{{ giveEvaluation.id }}">View</a></td>#}
-                {#</tr>#}
-            {#{% endfor %}#}
-        {#</table>#}
+        {% endif %}
     {% else %}
         <hr>
         Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!

@@ -36,20 +36,20 @@ class UserController extends Controller
             return $this->redirectToRoute("security_login");
         }else{
             $user=new User();
-            $form =  $this->createFormBuilder( $user)
-                ->add('email', TextType::class)
-                ->add('password', RepeatedType::class, array(
-                    'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match.',
-                    'options' => array('attr' => array('class' => 'password-field')),
-                    'required' => true,
-                    'first_options'  => array('label' => 'Password'),
-                    'second_options' => array('label' => 'Repeat Password')))
-                ->add('fullName', TextType::class)
-                ->add('city', TextType::class)
-                ->add('address', TextType::class)
-                ->add('phone', TextType::class)
-                ->add('birthday', DateType::class, array('widget' => 'single_text'))
+            $form =  $this->createForm( UserType::class, $user);
+//                ->add('email', TextType::class)
+//                ->add('password', RepeatedType::class, array(
+//                    'type' => PasswordType::class,
+//                    'invalid_message' => 'The password fields must match.',
+//                    'options' => array('attr' => array('class' => 'password-field')),
+//                    'required' => true,
+//                    'first_options'  => array('label' => 'Password'),
+//                    'second_options' => array('label' => 'Repeat Password')))
+//                ->add('fullName', TextType::class)
+//                ->add('city', TextType::class)
+//                ->add('address', TextType::class)
+//                ->add('phone', TextType::class)
+//                ->add('birthday', DateType::class, array('widget' => 'single_text'))
 //  TODO: changete generate checkbox
 //            ->add('roles', EntityType::class , array(
 //                'class'=>Role::class,
@@ -57,8 +57,8 @@ class UserController extends Controller
 //                    'multiple' => true,
 //                )
 //            )
-                ->add("Save", SubmitType::class)
-                ->getForm();
+//                ->add("Save", SubmitType::class)
+//                ->getForm();
             $form->handleRequest($request);
             if($form->isSubmitted()){
                 $password= $this->get('security.password_encoder')
@@ -114,16 +114,13 @@ class UserController extends Controller
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted()) {
-            $password = $this->get('security.password_encoder')
-                ->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
             return $this->redirectToRoute("users");
         }
-        return $this->render('users/registerUser.html.twig', ["user"=>$user, "userForm"=>$form->createView()]);
+        return $this->render('users/editUser.html.twig', ["user"=>$user, "userForm"=>$form->createView()]);
     }
 
 

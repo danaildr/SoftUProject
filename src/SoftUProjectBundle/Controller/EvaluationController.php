@@ -81,13 +81,8 @@ class EvaluationController extends Controller
             $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
             if($form->isSubmitted() && $form->isValid()){
 
-                $currentTeacher=$this->getUser();
                 $evaluation->setCourseid($evaluation->getCourse()->getId());
-                // $evaluation->setCourse();
-//                $evaluation->setTeacher($currentTeacher);
-//                $evaluation->setAuthorId($currentTeacher->getId());
-//                $evaluation->setStudent($currentStudent);
-//                $evaluation->setRecipient($currentStudent->getId());
+
 
                 $em=$this->getDoctrine()->getManager();
                 $em->persist($evaluation);
@@ -100,5 +95,35 @@ class EvaluationController extends Controller
         }
 
         return $this->render('evaluation/edit.html.twig');
+    }
+    /**
+     * @Route("/evaluation/{id}/delete", name="delete_evaluation")
+     *
+     *
+     */
+    public function deleteEvaluation(Request $request, int $id)
+    {
+        $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
+        $currentUser=$this->getUser();
+        if($currentUser->isAdmin()){
+            $form=$this->createForm(EvaluationType::class, $evaluation);
+            $form->handleRequest($request);
+            $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
+            if($form->isSubmitted() && $form->isValid()){
+
+                $evaluation->setCourseid($evaluation->getCourse()->getId());
+
+
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($evaluation);
+                $em->flush();
+
+                return $this->redirectToRoute("all_evaluation");
+            }
+
+            return $this->render('evaluation/delete.html.twig', ['evaluation'=>$evaluation,"evform"=>$form->createView(), 'currentStudent'=>$currentStudent]);
+        }
+
+        return $this->render('evaluation/delete.html.twig');
     }
 }

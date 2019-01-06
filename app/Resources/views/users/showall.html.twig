@@ -2,37 +2,37 @@
 
 {% block main %}
     <div class="jumbotron">
-    {% if app.user %}
-        <h1 class="display-5">Hello, {{ app.user.fullName }}!</h1>
-        <hr class="my-4">
-
-        {% if app.user.isAdmin %}
-            <a class="btn btn-primary" href="{{ path('newuser_register') }}">Create new User</a>
-            <a class="btn btn-success" href="{{ path('roles') }}">Show all user and roles</a>
+        {% if app.user %}
+            <h1 class="display-5">Hello, {{ app.user.fullName }}!</h1>
             <hr class="my-4">
-        {% endif %}
-        <table class="table table-striped">
-            {% if app.user.isAdmin %}
-                <tr><td colspan="3">Admins</td></tr>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Options</th>
-                </tr>
-                {% for admin in admins %}
 
-                    <tr>
-                        <td>{{ admin.fullName }}</td>
-                        <td>{{ admin.email }}</td>
-                        <td>
-                            <a class="btn btn-success" href="/profile/{{ admin.id }}">View Profile</a>
-                            <a class="btn btn-secondary" href="/profile/{{ admin.id }}/edit">Edit Profile</a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% if app.user.isAdmin %}
+                <a class="btn btn-primary" href="{{ path('newuser_register') }}">Create new User</a>
+                <a class="btn btn-success" href="{{ path('roles') }}">Show all user and roles</a>
+                <hr class="my-4">
             {% endif %}
-            {% if app.user.isAdmin or app.user.isTeacher %}
-                <tr><td colspan="3">Teachers</td></tr>
+            <table class="table table-striped">
+                {% if app.user.isAdmin %}
+                    <tr><td colspan="3">Admins</td></tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Options</th>
+                    </tr>
+                    {% for admin in admins %}
+
+                        <tr>
+                            <td>{{ admin.fullName }}</td>
+                            <td>{{ admin.email }}</td>
+                            <td>
+                                <a class="btn btn-success" href="/profile/{{ admin.id }}">View Profile</a>
+                                <a class="btn btn-secondary" href="/profile/{{ admin.id }}/edit">Edit Profile</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if app.user.isAdmin or app.user.isTeacher %}
+                    <tr><td colspan="3">Teachers</td></tr>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
@@ -40,39 +40,38 @@
                     </tr>
                     {% for teacher in teachers %}
 
+                        <tr>
+                            <td>{{ teacher.fullName }}</td>
+                            <td>{{ teacher.email }}</td>
+                            <td>
+                                <a class="btn btn-success" href="/profile/{{ teacher.id }}">View Profile</a>
+                                {% if app.user.isAdmin %}
+                                    <a class="btn btn-secondary" href="/profile/{{ teacher.id }}/edit">Edit Profile</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                <tr><td colspan="3">Students</td></tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Options</th>
+                </tr>
+                {% for student in students %}
+
                     <tr>
-                        <td>{{ teacher.fullName }}</td>
-                        <td>{{ teacher.email }}</td>
+                        <td>{{ student.fullName }}</td>
+                        <td>{{ student.email }}</td>
                         <td>
-                            <a class="btn btn-success" href="/profile/{{ teacher.id }}">View Profile</a>
-                            {% if app.user.isAdmin %}
-                                <a class="btn btn-secondary" href="/profile/{{ teacher.id }}/edit">Edit Profile</a>
-                            {% endif %}
+                            <a class="btn btn-warning" href="/evaluation/create/{{ student.id }}">Give Evaluation</a>
+                            <a class="btn btn-success" href="/profile/{{ student.id }}">View Profile</a>
+                            <a class="btn btn-secondary" href="/profile/{{ student.id }}/edit">Edit Profile</a>
                         </td>
                     </tr>
-                    {% endfor %}
-            {% endif %}
-            <tr><td colspan="3">Students</td></tr>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Options</th>
-            </tr>
-            {% for student in students %}
-
-                <tr>
-                    <td>{{ student.fullName }}</td>
-                    <td>{{ student.email }}</td>
-                    <td>
-                        <a class="btn btn-warning" href="/evaluation/create/{{ student.id }}">Give Evaluation</a>
-                        <a class="btn btn-success" href="/profile/{{ student.id }}">View Profile</a>
-                        <a class="btn btn-secondary" href="/profile/{{ student.id }}/edit">Edit Profile</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
+                {% endfor %}
+            </table>
+        {% endif %}
     </div>
 
 {% endblock %}
-

@@ -4,49 +4,49 @@
     {% if app.user.isAdmin %}
         <div class="container body-content span=8 offset=2">
             <div class="well">
-                <form class="form-horizontal" action="{{ path('newuser_register') }}" method="POST">
+                <form class="form-horizontal" action="/profile/{{ user.id }}/edit" method="POST">
                     <fieldset>
                         <legend>New user</legend>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="email">Email</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="user_email" placeholder="email"
-                                       name="user[email]" >
+                                       name="user[email]" value="{{ user.email }}" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="password">Password</label>
                             <div class="col-sm-4 ">
-                                <input type="password" class="form-control" id="user_password" placeholder="password"
-                                       name="user[password]" >
+                                <input type="text" class="form-control" id="user_password" placeholder="password"
+                                       name="user[password]" value="{{ user.password }}" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="fullName">Name</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="user_fullName" placeholder="User full name"
-                                       name="user[fullName]" >
+                                       name="user[fullName]"value="{{ user.fullName }}" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="city">City</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="user_city" placeholder="City"
-                                       name="user[city]" >
+                                       name="user[city]" value="{{ user.city }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="address">Address</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="user_address" placeholder="Address"
-                                       name="user[address]" >
+                                       name="user[address]" value="{{ user.address }}" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="phone">Phone</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="user_phone" placeholder="Phone"
-                                       name="user[phone]" >
+                                       name="user[phone]" value="{{ user.phone }}">
                             </div>
                         </div>
                         {# TODO: да се имплеметира по-красив календар#}
@@ -65,3 +65,4 @@
         </div>
     {% endif %}
 {% endblock %}
+

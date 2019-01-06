@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-<table border="2">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Roles</th>
-    </tr>
+{% block main %}
+    {% if app.user %}
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Options</th>
+            </tr>
 
-    {% for user in users %}
-        <tr>
-            <td><a href="/profile/{{ user.id }}">{{ user.fullName }}</a></td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.Roles() | join(' | ') }}</td>
-        </tr>
-    {% endfor %}
-</table>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.fullName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.Roles() | join(' | ') }}</td>
+                    <td><a class="btn btn-success" href="/profile/{{ user.id }}">View profile</a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
+    {% endif %}
 {% endblock %}
-
