@@ -19,6 +19,7 @@ class EvaluationController extends Controller
      */
     public function createAction(Request $request, int $id)
     {
+        $errorMsg='';
         $evaluation = new Evaluation();
         $currentUser=$this->getUser();
         if($currentUser->isTeacher()){
@@ -27,22 +28,27 @@ class EvaluationController extends Controller
             $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
             if($form->isSubmitted() && $form->isValid()){
 
-                $currentTeacher=$this->getUser();
-                $evaluation->setCourseid($evaluation->getCourse()->getId());
-                // $evaluation->setCourse();
-                $evaluation->setTeacher($currentTeacher);
-                $evaluation->setAuthorId($currentTeacher->getId());
-                $evaluation->setStudent($currentStudent);
-                $evaluation->setRecipient($currentStudent->getId());
+                try{
+                    $currentTeacher=$this->getUser();
+                    $evaluation->setCourseid($evaluation->getCourse()->getId());
+                    // $evaluation->setCourse();
+                    $evaluation->setTeacher($currentTeacher);
+                    $evaluation->setAuthorId($currentTeacher->getId());
+                    $evaluation->setStudent($currentStudent);
+                    $evaluation->setRecipient($currentStudent->getId());
 
-                $em=$this->getDoctrine()->getManager();
-                $em->persist($evaluation);
-                $em->flush();
+                    $em=$this->getDoctrine()->getManager();
+                    $em->persist($evaluation);
+                    $em->flush();
 
-                return $this->redirectToRoute("all_evaluation");
+                    return $this->redirectToRoute("all_evaluation");
+                }catch (\Exception $exception){
+                    $errorMsg = "Please fill in all fields correctly";
+                    return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView(), 'currentStudent'=>$currentStudent, 'errorMsg'=>$errorMsg]);
+                }
             }
 
-            return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView(), 'currentStudent'=>$currentStudent]);
+            return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView(), 'currentStudent'=>$currentStudent, 'errorMsg'=>$errorMsg]);
         }
         return $this->redirectToRoute('homepage');
     }
@@ -61,7 +67,9 @@ class EvaluationController extends Controller
      */
     public function showOneEvaluation(int $id){
         $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
-
+        if($evaluation === null){
+            return $this->redirectToRoute('all_evaluation');
+        }
         return $this->render('evaluation/evalluation.html.twig', array('evaluation'=>$evaluation));
 
     }
@@ -74,6 +82,9 @@ class EvaluationController extends Controller
     public function editEvaluation(Request $request, int $id)
     {
         $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
+        if($evaluation === null){
+            return $this->redirectToRoute('all_evaluation');
+        }
         $currentUser=$this->getUser();
         if($currentUser->isTeacher()){
             $form=$this->createForm(EvaluationType::class, $evaluation);
@@ -104,6 +115,9 @@ class EvaluationController extends Controller
     public function deleteEvaluation(Request $request, int $id)
     {
         $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
+        if($evaluation === null){
+            return $this->redirectToRoute('all_evaluation');
+        }
         $currentUser=$this->getUser();
         if($currentUser->isAdmin()){
             $form=$this->createForm(EvaluationType::class, $evaluation);

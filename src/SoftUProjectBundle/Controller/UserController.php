@@ -27,6 +27,7 @@ class UserController extends Controller
      */
     public function registerAction(Request $request, Connection $connection)
     {
+        $errorMsg='';
         $database=$this->getDoctrine()->getConnection()->getDatabase();
         $query= "select r.user_id from $database.users_roles r  WHERE  r.role_id =1";
         $stmt=$connection->prepare($query);
@@ -37,43 +38,26 @@ class UserController extends Controller
         }else{
             $user=new User();
             $form =  $this->createForm( UserType::class, $user);
-//                ->add('email', TextType::class)
-//                ->add('password', RepeatedType::class, array(
-//                    'type' => PasswordType::class,
-//                    'invalid_message' => 'The password fields must match.',
-//                    'options' => array('attr' => array('class' => 'password-field')),
-//                    'required' => true,
-//                    'first_options'  => array('label' => 'Password'),
-//                    'second_options' => array('label' => 'Repeat Password')))
-//                ->add('fullName', TextType::class)
-//                ->add('city', TextType::class)
-//                ->add('address', TextType::class)
-//                ->add('phone', TextType::class)
-//                ->add('birthday', DateType::class, array('widget' => 'single_text'))
-//  TODO: changete generate checkbox
-//            ->add('roles', EntityType::class , array(
-//                'class'=>Role::class,
-//                    'choice_label' => 'name',
-//                    'multiple' => true,
-//                )
-//            )
-//                ->add("Save", SubmitType::class)
-//                ->getForm();
             $form->handleRequest($request);
             if($form->isSubmitted()){
-                $password= $this->get('security.password_encoder')
-                    ->encodePassword($user, $user->getPassword());
-                $user->setPassword($password);
-                $role=$this->getDoctrine()->getRepository(Role::class)->findOneBy(['name'=>'ROLES_ADMIN']);
-                $user->addRole($role);
-                $em= $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+                try{
+                    $password= $this->get('security.password_encoder')
+                        ->encodePassword($user, $user->getPassword());
+                    $user->setPassword($password);
+                    $role=$this->getDoctrine()->getRepository(Role::class)->findOneBy(['name'=>'ROLES_ADMIN']);
+                    $user->addRole($role);
+                    $em= $this->getDoctrine()->getManager();
+                    $em->persist($user);
+                    $em->flush();
 
-                return $this->redirectToRoute("security_login");
+                    return $this->redirectToRoute("security_login");
+                }catch (\Exception $e){
+                    $errorMsg = "Please fill in all fields correctly";
+                    return $this->render('users/register.html.twig',["registerForm"=> $form->createView(), 'errorMsg'=>$errorMsg]);
+                }
             }
 
-            return $this->render('users/register.html.twig',["registerForm"=> $form->createView()]);
+            return $this->render('users/register.html.twig',["registerForm"=> $form->createView(), 'errorMsg'=>$errorMsg]);
         }
     }
 
@@ -85,6 +69,9 @@ class UserController extends Controller
             ->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
+        if($user===null){
+            $this->redirectToRoute('users');
+        }
         $evaluations=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(["recipient"=>$id]);
         $giveEvaluation=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(["authorId"=>$id]);
 
@@ -130,22 +117,27 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createNewUser(Request $request){
+        $errorMsg ="";
         $user=new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        $roles=$this->getDoctrine()->getRepository(Role::class)->findAll();
         if($form->isSubmitted()){
-            $password= $this->get('security.password_encoder')
-                ->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-            $em= $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            try{
+                $password= $this->get('security.password_encoder')
+                    ->encodePassword($user, $user->getPassword());
+                $user->setPassword($password);
+                $em= $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
 
-            return $this->redirectToRoute("users");
+                return $this->redirectToRoute("users");
+            }catch (\Exception $e){
+                $errorMsg = "Please fill in all fields correctly";
+                return $this->render('users/register.html.twig',["registerForm"=> $form->createView(), 'errorMsg'=>$errorMsg]);
+            }
         }
 
-        return $this->render('users/registerUser.html.twig', [ "userForm"=>$form->createView()]);
+        return $this->render('users/registerUser.html.twig', [ "userForm"=>$form->createView(), 'errorMsg'=>$errorMsg]);
     }
 
 

@@ -31,10 +31,15 @@ class CourseController extends Controller
         $form= $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
         if($form->isSubmitted()){
-            $em= $this->getDoctrine()->getManager();
-            $em->persist($course);
-            $em->flush();
-            return $this->redirectToRoute("courses");
+            try{
+                $em= $this->getDoctrine()->getManager();
+                $em->persist($course);
+                $em->flush();
+                return $this->redirectToRoute("courses");
+            }catch (\Exception $e){
+                $errorMsg ='Please fill in all fields correctly';
+                return $this->render('courses/create.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg));
+            };
         }
 
         return $this->render('courses/create.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg));
@@ -49,8 +54,7 @@ class CourseController extends Controller
         $course=$this->getDoctrine()->getRepository(Course::class)->find($id);
         $evaluations=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(array("courseid"=>$id));
         if($course===null){
-            $errorMsg = "Not found this course!";
-            return $this->render('default/dashboard.html.twig', array('errorMsg'=>$errorMsg));
+            return $this->redirectToRoute('courses');
         }
 
         return $this->render('courses/showone.html.twig', array('course'=>$course, 'evaluations'=>$evaluations));
