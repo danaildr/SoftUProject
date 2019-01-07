@@ -1,21 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block main %}
-    <hr class="my-4">
-    <p class="lead">This User is: {{ user.roles | join (' | ') }}</p>
-    <hr class="my-4">
-    <div>Make this user:
-        {% for role in roles  %}
-            {% if not user.admin and role.name == 'ROLES_ADMIN' %}
-                <a class="btn btn-primary" href="/profile/{{ user.id }}/add/roles/ROLES_ADMIN">Admin </a>
-            {% endif %}
-            {% if not user.teacher and role.name == 'ROLES_TEACHER' %}
-                <a class="btn btn-primary" href="/profile/{{ user.id }}/add/roles/ROLES_TEACHER">Teacher </a>
-            {% endif %}
-            {% if not user.student and role.name == 'ROLES_STUDENT' %}
-                <a class="btn btn-primary" href="/profile/{{ user.id }}/add/roles/ROLES_STUDENT">Student </a>
-            {% endif %}
-        {% endfor %}
-    </div>
-    <hr class="my-4">
-    <a class="btn btn-dark" href="{{ path('roles') }}">Back to all users</a>
+    {% is app.user %}
+        <hr class="my-4">
+        <p class="lead">This User is: {{ user.roles | join (' | ') }}</p>
+        <hr class="my-4">
+        <div>Make this user:
+            {% for role in roles  %}
+                {% if not user.admin and role.name == 'ROLES_ADMIN' %}
+                    <a class="btn btn-primary" href="/profile/{{ user.id }}/add/roles/ROLES_ADMIN">Admin </a>
+                {% endif %}
+                {% if not user.teacher and role.name == 'ROLES_TEACHER' %}
+                    <a class="btn btn-primary" href="/profile/{{ user.id }}/add/roles/ROLES_TEACHER">Teacher </a>
+                {% endif %}
+                {% if not user.student and role.name == 'ROLES_STUDENT' %}
+                    <a class="btn btn-primary" href="/profile/{{ user.id }}/add/roles/ROLES_STUDENT">Student </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <hr class="my-4">
+        <a class="btn btn-dark" href="{{ path('roles') }}">Back to all users</a>
+    {% else %}
+        <hr>
+            Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
+    {% endif %}
 {% endblock %}

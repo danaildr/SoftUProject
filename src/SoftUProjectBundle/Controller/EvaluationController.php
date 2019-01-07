@@ -43,7 +43,7 @@ class EvaluationController extends Controller
 
                     return $this->redirectToRoute("all_evaluation");
                 }catch (\Exception $exception){
-                    $errorMsg = "Please fill in all fields correctly";
+                    $errorMsg = "Please fill in all fields correctly! Evaluation value must be number, decimal separator is '.' not ',' ! Content is text!";
                     return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView(), 'currentStudent'=>$currentStudent, 'errorMsg'=>$errorMsg]);
                 }
             }
@@ -81,6 +81,7 @@ class EvaluationController extends Controller
      */
     public function editEvaluation(Request $request, int $id)
     {
+        $errorMsg='';
         $evaluation = $this->getDoctrine()->getRepository(Evaluation::class)->find($id);
         if($evaluation === null){
             return $this->redirectToRoute('all_evaluation');
@@ -91,18 +92,20 @@ class EvaluationController extends Controller
             $form->handleRequest($request);
             $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
             if($form->isSubmitted() && $form->isValid()){
+                try{
+                    $evaluation->setCourseid($evaluation->getCourse()->getId());
+                    $em=$this->getDoctrine()->getManager();
+                    $em->persist($evaluation);
+                    $em->flush();
 
-                $evaluation->setCourseid($evaluation->getCourse()->getId());
-
-
-                $em=$this->getDoctrine()->getManager();
-                $em->persist($evaluation);
-                $em->flush();
-
-                return $this->redirectToRoute("all_evaluation");
+                    return $this->redirectToRoute("all_evaluation");
+                }catch (\Exception $e){
+                    $errorMsg ="Please fill in all fields correctly! Evaluation value must be number, decimal separator is '.' not ',' ! Content is text!";
+                    return $this->render('evaluation/edit.html.twig', ['evaluation'=>$evaluation,"evform"=>$form->createView(), 'currentStudent'=>$currentStudent, 'errorMsg'=>$errorMsg]);
+                }
             }
 
-            return $this->render('evaluation/edit.html.twig', ['evaluation'=>$evaluation,"evform"=>$form->createView(), 'currentStudent'=>$currentStudent]);
+            return $this->render('evaluation/edit.html.twig', ['evaluation'=>$evaluation,"evform"=>$form->createView(), 'currentStudent'=>$currentStudent,  'errorMsg'=>$errorMsg]);
         }
 
         return $this->render('evaluation/edit.html.twig');

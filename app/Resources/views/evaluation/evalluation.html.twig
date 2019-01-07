@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-
-    <hr class="my-4">
-    <h4 class="display-5">Evaluation number: {{ evaluation.id }}</h4>
-    <hr class="my-3">
-    Teacher: <a href="/profile/{{ evaluation.authorId }}">{{ evaluation.teacher.fullName }}</a><br>
-    Student: <a href="/profile/{{ evaluation.recipient }}">{{ evaluation.student.fullName }}</a><br>
-    Course: <a href="/courses/{{ evaluation.courseid }}">{{ evaluation.course.name }}</a><br>
-    Date: {{ evaluation.dateAdded | date("d/M/Y")}}<br>
-    <h4 class="display-5">Value: {{ evaluation.value }}</h4>
-    Comment: {{ evaluation.comment }}<br>
-    <a class="btn btn-dark" href="{{ path('all_evaluation') }}">Back</a>
-    {% if evaluation.authorId == app.user.id %}
-        <a class="btn btn-warning" href="/evaluation/{{ evaluation.id }}/edit">Edit Evaluation</a>
+    {% if app.user %}
+        <hr class="my-4">
+        <h4 class="display-5">Evaluation number: {{ evaluation.id }}</h4>
+        <hr class="my-3">
+        Teacher: <a href="/profile/{{ evaluation.authorId }}">{{ evaluation.teacher.fullName }}</a><br>
+        Student: <a href="/profile/{{ evaluation.recipient }}">{{ evaluation.student.fullName }}</a><br>
+        Course: <a href="/courses/{{ evaluation.courseid }}">{{ evaluation.course.name }}</a><br>
+        Date: {{ evaluation.dateAdded | date("d/M/Y")}}<br>
+        <h4 class="display-5">Value: {{ evaluation.value }}</h4>
+        Comment: {{ evaluation.comment }}<br>
+        <a class="btn btn-dark" href="{{ path('all_evaluation') }}">Back</a>
+        {% if evaluation.authorId == app.user.id %}
+            <a class="btn btn-warning" href="/evaluation/{{ evaluation.id }}/edit">Edit Evaluation</a>
+        {% endif %}
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
     {% endif %}
 {% endblock %}

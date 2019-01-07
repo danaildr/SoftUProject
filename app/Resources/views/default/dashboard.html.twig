@@ -46,9 +46,11 @@
                {% endfor %}
            </table>
        {% else %}
-           <hr>
-           Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
-           <hr>
+           <hr class="my-4">
+           <p class="lead"></p> Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!</p>
+           <hr class="my-4">
+           <p class="lead">If you do not have a registration, please contact your administrator to get a name and password.<br>
+               Only users registered by the administrator can access this site.</p>
        {% endif %}
 
 {% endblock %}

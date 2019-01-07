@@ -4,11 +4,7 @@ namespace SoftUProjectBundle\Controller;
 
 use SoftUProjectBundle\Entity\Role;
 use SoftUProjectBundle\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,6 +32,9 @@ class RoleController extends Controller
      */
     public function editRole(Request $request, int $id){
         $currentUser= $this->getUser();
+        if($currentUser == null){
+            return $this->redirectToRoute('homepage');
+        }
         if(!$currentUser->isAdmin()){
             return $this->redirectToRoute('homepage');
         }

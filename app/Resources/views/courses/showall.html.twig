@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
+    {% if app.user %}
         <h1 class="display-5">Hello, {{ app.user.fullName }}!</h1>
         <hr class="my-4">
         {% if app.user.isAdmin %}
@@ -13,5 +14,10 @@
             <a type="button" class="btn btn-success" href="/courses/{{ course.id }}">{{ course.name }}</a>
         {% endfor %}
         <hr class="my-4">
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
+    {% endif %}
 {% endblock %}
 

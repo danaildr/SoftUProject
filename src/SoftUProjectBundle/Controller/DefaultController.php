@@ -2,7 +2,6 @@
 
 namespace SoftUProjectBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use SoftUProjectBundle\Entity\Evaluation;
 use SoftUProjectBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

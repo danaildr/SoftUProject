@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 {% block main %}
-    <div class="container body-content span=8 offset=2">
+    {% if app.user %}
+        <div class="container body-content span=8 offset=2">
         <div class="well">
             <form class="form-horizontal" action="{{ path('course_create') }}" method="POST">
                 <fieldset>
@@ -34,4 +35,9 @@
             </form>
         </div>
     </div>
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
+    {% endif %}
 {% endblock %}

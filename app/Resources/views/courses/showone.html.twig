@@ -27,6 +27,10 @@
             {% endfor %}
         </table>
         <a type="button" class="btn btn-dark" href="{{ path('courses') }}">Back to courses</a>
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
     {% endif %}
 {% endblock %}
 

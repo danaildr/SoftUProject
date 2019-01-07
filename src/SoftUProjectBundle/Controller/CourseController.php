@@ -37,7 +37,7 @@ class CourseController extends Controller
                 $em->flush();
                 return $this->redirectToRoute("courses");
             }catch (\Exception $e){
-                $errorMsg ='Please fill in all fields correctly';
+                $errorMsg ="Please fill in all fields correctly! Course name must be uniqe!";
                 return $this->render('courses/create.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg));
             };
         }

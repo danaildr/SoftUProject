@@ -35,5 +35,10 @@
             {% endfor %}
 
         </table>
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
     {% endif %}
+
 {% endblock %}
