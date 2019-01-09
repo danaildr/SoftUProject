@@ -28,9 +28,6 @@
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-4">
                                 <a class="btn btn-warning" href="{{ path('courses') }}">Cancel</a>
-                                {% if isEmpty %}
-                                    <a class="btn btn-danger" href="/courses/{{ course.id }}/delete">Delete</a>
-                                {% endif %}
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>

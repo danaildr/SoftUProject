@@ -53,4 +53,11 @@ class DefaultController extends Controller
         }
         return $this->render("users/showall.html.twig", ["admins"=>$admins, "teachers"=>$teachers, "students"=>$students]);
     }
+
+    /**
+     * @Route("/help", name="help")
+     */
+    public function help(){
+        return $this->render('default/help.html.twig');
+    }
 }

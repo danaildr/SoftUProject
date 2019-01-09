@@ -28,7 +28,6 @@
                         {% endif %}
                         {% if evaluation.authorId == app.user.id or app.user.isAdmin %}
                             <a class="btn btn-danger" href="/evaluation/{{ evaluation.id }}/delete">Delete</a>
-                            {#TODO : create delete form#}
                         {% endif %}
                     </td>
                 </tr>

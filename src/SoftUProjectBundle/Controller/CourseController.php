@@ -71,7 +71,7 @@ class CourseController extends Controller
         }
         $currentUser= $this->getUser();
         $courses = $this->getDoctrine()->getRepository(Course::class)->findAll();
-        if(!$currentUser->isAdmin() && !$currentUser->getId() === $id){
+        if(!$currentUser->isAdmin()){
             return $this->redirectToRoute('courses');
         }
 
