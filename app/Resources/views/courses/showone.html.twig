@@ -6,6 +6,9 @@
         <hr class="my-4">
         <p class="lead">{{ course.content }}</p>
         <a class="btn btn-warning" href="/courses/{{ course.id }}/edit">Edit </a>
+        {% if isEmpty %}
+            <a class="btn btn-danger" href="/courses/{{ course.id }}/delete">Delete</a>
+        {% endif %}
         <hr class="my-4">
         <p class="lead">All ratings for the {{ course.name }} course</p>
 

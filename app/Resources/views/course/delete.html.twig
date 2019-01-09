@@ -3,7 +3,7 @@
     {% if app.user %}
         <div class="container body-content span=8 offset=2">
             <div class="well">
-                <form class="form-horizontal" action="/courses/{{ course.id }}/edit" method="POST">
+                <form class="form-horizontal" action="/courses/{{ course.id }}/delete" method="POST">
                     <fieldset>
                         <legend>New course</legend>
 
@@ -11,7 +11,7 @@
                             <label class="col-sm-4 control-label" for="course_name">Course name</label>
                             <div class="col-sm-4 ">
                                 <input type="text" class="form-control" id="course_name" placeholder="Course name"
-                                       name="course[name]" value="{{ course.name }}" >
+                                       name="course[name]" value="{{ course.name }}"  disabled>
                             </div>
                         </div>
 
@@ -19,19 +19,17 @@
                             <label class="col-sm-4 control-label" for="course_content">Course description</label>
                             <div class="col-sm-6">
                         <textarea class="form-control" rows="6" id="course_content_content"
-                                  name="course[content]">{{ course.content }}</textarea>
+                                  name="course[content]" disabled>{{ course.content }}</textarea>
                             </div>
                         </div>
 
-                        {{ form_row(courseForm._token) }}
+                        {{ form_row(deleteForm._token) }}
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-4">
                                 <a class="btn btn-warning" href="{{ path('courses') }}">Cancel</a>
-                                {% if isEmpty %}
-                                    <a class="btn btn-danger" href="/courses/{{ course.id }}/delete">Delete</a>
-                                {% endif %}
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+
                             </div>
                         </div>
                     </fieldset>

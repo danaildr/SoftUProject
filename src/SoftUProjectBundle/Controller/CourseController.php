@@ -108,11 +108,54 @@ class CourseController extends Controller
      */
     public function showOneCourse(int $id){
         $course=$this->getDoctrine()->getRepository(Course::class)->find($id);
+        $isEmpty=$this->isEmpty($id);
         $evaluations=$this->getDoctrine()->getRepository(Evaluation::class)->findBy(array("courseid"=>$id));
         if($course===null){
             return $this->redirectToRoute('courses');
         }
 
-        return $this->render('courses/showone.html.twig', array('course'=>$course, 'evaluations'=>$evaluations));
+        return $this->render('courses/showone.html.twig', array('course'=>$course, 'evaluations'=>$evaluations, 'isEmpty'=>$isEmpty));
+    }
+
+    /**
+     * @Route("/courses/{id}/delete")
+     * @param int $id
+     */
+    public function deleteCourse(Request $request, int $id){
+        $errorMsg='';
+        $currentUser=$this->getUser();
+        $course = $this->getDoctrine()->getRepository(Course::class)->find($id);
+        if($course==null){
+            return $this->redirectToRoute('courses');
+        }
+        if(!$currentUser->isAdmin() ){
+            return $this->redirectToRoute('courses');
+        }
+
+        $form = $this->createForm(CourseType::class, $course);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            try{
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($course);
+                $em->flush();
+            }catch (\Exception $e){
+                $errorMsg = 'Something went wrong!';
+                return $this->render('course/delete.html.twig', array('course'=>$course, 'deleteForm'=>$form->createView(), 'errorMsg'=>$errorMsg));
+            }
+            return $this->redirectToRoute('courses');
+        }
+        return $this->render('course/delete.html.twig', array('course'=>$course, 'deleteForm'=>$form->createView(), 'errorMsg'=>$errorMsg));
+
+    }
+
+
+
+    public function isEmpty($id){
+        $evaluations = $this->getDoctrine()->getRepository(Evaluation::class)->findBy(array('courseid'=>$id));
+        if(count($evaluations)>0){
+            return false;
+        }
+        return true;
     }
 }
