@@ -125,13 +125,12 @@ class CourseController extends Controller
         $errorMsg='';
         $currentUser=$this->getUser();
         $course = $this->getDoctrine()->getRepository(Course::class)->find($id);
-        if($course==null){
+        if($course==null || !$this->isEmpty($id)){
             return $this->redirectToRoute('courses');
         }
-        if(!$currentUser->isAdmin() ){
+        if(!$currentUser->isAdmin()){
             return $this->redirectToRoute('courses');
         }
-
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){

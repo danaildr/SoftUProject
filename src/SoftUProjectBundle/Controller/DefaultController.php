@@ -40,13 +40,13 @@ class DefaultController extends Controller
         foreach ($users as $user){
             $roles=$user->getRoles();
             foreach ($roles as $role){
-                if($role === "ROLES_ADMIN"){
+                if($role === "ADMIN"){
                     $admins[]=$user;
                 }
-                if($role === "ROLES_STUDENT"){
+                if($role === "STUDENT"){
                     $students[]=$user;
                 }
-                if($role === "ROLES_TEACHER"){
+                if($role === "TEACHER"){
                     $teachers[]=$user;
                 }
             }
