@@ -28,8 +28,16 @@ class CourseController extends Controller
     {
         $errorMsg='';
         $course=new Course();
+        $courses = $this->getDoctrine()->getRepository(Course::class)->findAll();
         $form= $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
+        foreach($courses as $value){
+            if($value->getName()== $course->getName()){
+                $existCourse = $course->getName();
+                $errorMsg ="Tne course: $existCourse exist! Please fill in all fields correctly! Course name must be uniqe!";
+                return $this->render('courses/create.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg));
+            }
+        }
         if($form->isSubmitted()){
             try{
                 $em= $this->getDoctrine()->getManager();
@@ -43,6 +51,54 @@ class CourseController extends Controller
         }
 
         return $this->render('courses/create.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg));
+    }
+
+    /**
+     * @Route("/courses/{id}/edit")
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editCourse(Request $request, int $id){
+        $errorMsg='';
+        $course=$this
+            ->getDoctrine()
+            ->getRepository(Course::class)
+            ->find($id);
+        if($course == null){
+            return $this->redirectToRoute('courses');
+        }
+        $currentUser= $this->getUser();
+        $courses = $this->getDoctrine()->getRepository(Course::class)->findAll();
+        if(!$currentUser->isAdmin() && !$currentUser->getId() === $id){
+            return $this->redirectToRoute('courses');
+        }
+
+        $form = $this->createForm(CourseType::class, $course);
+        $form->handleRequest($request);
+        foreach($courses as $value){
+            if($value->getId() !=$course->getId()){
+                if($value->getName()== $course->getName()){
+                    $existCourse = $course->getName();
+                    $errorMsg ="Tne course: $existCourse exist! Please fill in all fields correctly! Course name must be uniqe!";
+                    return $this->render('courses/edit.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg, 'course'=>$course));
+                }
+            }
+
+        }
+        if($form->isSubmitted()){
+            try{
+                $em= $this->getDoctrine()->getManager();
+                $em->persist($course);
+                $em->flush();
+                return $this->redirectToRoute("courses");
+            }catch (\Exception $e){
+                $errorMsg='Something went wrong!';
+                return $this->render('courses/edit.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg, 'course'=>$course));
+            }
+        }
+        return $this->render('courses/edit.html.twig', array('courseForm' => $form->createView(), 'errorMsg'=>$errorMsg, 'course'=>$course));
     }
 
     /**

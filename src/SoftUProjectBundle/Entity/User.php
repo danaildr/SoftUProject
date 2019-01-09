@@ -386,7 +386,7 @@ class User implements UserInterface
     public function isAdmin(){
         $roles=$this->getStringRoles();
         foreach ($roles as $role){
-            if($role === "ROLES_ADMIN"){
+            if($role === "ADMIN"){
                 return true;
             }
         }
@@ -398,7 +398,7 @@ class User implements UserInterface
     public function isStudent(){
         $roles=$this->getStringRoles();
         foreach ($roles as $role){
-            if($role === "ROLES_STUDENT"){
+            if($role === "STUDENT"){
                 return true;
             }
         }
@@ -407,7 +407,7 @@ class User implements UserInterface
     public function isTeacher(){
         $roles=$this->getStringRoles();
         foreach ($roles as $role){
-            if($role === "ROLES_TEACHER"){
+            if($role === "TEACHER"){
                 return true;
             }
         }

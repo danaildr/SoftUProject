@@ -41,7 +41,6 @@
             {% block errors %}
                 {% if errorMsg is defined  and errorMsg|length >0 %}
                     <div id="errorBox" class="alert alert-danger"><span>{{ errorMsg }}</span></div>
-                    {{ dump(errorMsg) }}
              {% endif %}
             {% endblock %}
             {% block body %}

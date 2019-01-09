@@ -5,8 +5,10 @@
         <h1 class="display-5">{{ course.name }}</h1>
         <hr class="my-4">
         <p class="lead">{{ course.content }}</p>
+        <a class="btn btn-warning" href="/courses/{{ course.id }}/edit">Edit </a>
         <hr class="my-4">
         <p class="lead">All ratings for the {{ course.name }} course</p>
+
         <hr class="my-4">
         <table class="table table-striped">
             <tr>

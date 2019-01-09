@@ -30,6 +30,10 @@ class EvaluationController extends Controller
 
                 try{
                     $currentTeacher=$this->getUser();
+                    if($evaluation->getValue() < 2 || $evaluation->getValue() > 6){
+                        $errorMsg = "Please fill in all fields correctly!Content is text! VALUE MUST BE BETWEEN 2 AND 6";
+                        return $this->render('evaluation/create.html.twig', ["evform"=>$form->createView(), 'currentStudent'=>$currentStudent, 'errorMsg'=>$errorMsg]);
+                    }
                     $evaluation->setCourseid($evaluation->getCourse()->getId());
                     // $evaluation->setCourse();
                     $evaluation->setTeacher($currentTeacher);
@@ -92,9 +96,14 @@ class EvaluationController extends Controller
             $form->handleRequest($request);
             $currentStudent=$this->getDoctrine()->getRepository(User::class)->find($id);
             if($form->isSubmitted() && $form->isValid()){
+
                 try{
-                    $evaluation->setCourseid($evaluation->getCourse()->getId());
+                    if($evaluation->getValue() < 2 || $evaluation->getValue() > 6){
+                        $errorMsg = "Please fill in all fields correctly!Content is text! VALUE MUST BE BETWEEN 2 AND 6";
+                        return $this->render('evaluation/edit.html.twig', ['evaluation'=>$evaluation,"evform"=>$form->createView(), 'currentStudent'=>$currentStudent, 'errorMsg'=>$errorMsg]);
+                    }
                     $em=$this->getDoctrine()->getManager();
+                    $evaluation->setCourseid($evaluation->getCourse()->getId());
                     $em->persist($evaluation);
                     $em->flush();
 

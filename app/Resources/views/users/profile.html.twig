@@ -20,7 +20,7 @@
             Phone: {{ user.phone }}
         </p>
         <p class="lead">
-            User roles:  {{ user.getRoles() | join(' | ') }}
+            This user is:  {{ user.getRoles() | join(' | ') }}
         </p>
 
         {% if user.id is same as (app.user.id) or app.user.isAdmin %}

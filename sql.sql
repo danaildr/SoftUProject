@@ -82,4 +82,4 @@ create index IDX_51498A8ED60322AC
   on users_roles (role_id);
 
 
-INSERT INTO `roles` VALUES (1,'ROLES_ADMIN'),(2,'ROLES_TEACHER'),(3,'ROLES_STUDENT'),(4,'ROLES_PARENT');
+INSERT INTO `roles` VALUES (1,'ADMIN'),(2,'TEACHER'),(3,'STUDENT'),(4,'PARENT');

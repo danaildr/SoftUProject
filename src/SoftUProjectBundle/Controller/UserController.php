@@ -38,7 +38,7 @@ class UserController extends Controller
                     $password= $this->get('security.password_encoder')
                         ->encodePassword($user, $user->getPassword());
                     $user->setPassword($password);
-                    $role=$this->getDoctrine()->getRepository(Role::class)->findOneBy(['name'=>'ROLES_ADMIN']);
+                    $role=$this->getDoctrine()->getRepository(Role::class)->findOneBy(['name'=>'ADMIN']);
                     $user->addRole($role);
                     $em= $this->getDoctrine()->getManager();
                     $em->persist($user);
