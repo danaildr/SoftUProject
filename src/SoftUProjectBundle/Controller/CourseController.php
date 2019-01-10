@@ -140,11 +140,11 @@ class CourseController extends Controller
                 $em->flush();
             }catch (\Exception $e){
                 $errorMsg = 'Something went wrong!';
-                return $this->render('course/delete.html.twig', array('course'=>$course, 'deleteForm'=>$form->createView(), 'errorMsg'=>$errorMsg));
+                return $this->render('courses/delete.html.twig', array('course'=>$course, 'deleteForm'=>$form->createView(), 'errorMsg'=>$errorMsg));
             }
             return $this->redirectToRoute('courses');
         }
-        return $this->render('course/delete.html.twig', array('course'=>$course, 'deleteForm'=>$form->createView(), 'errorMsg'=>$errorMsg));
+        return $this->render('courses/delete.html.twig', array('course'=>$course, 'deleteForm'=>$form->createView(), 'errorMsg'=>$errorMsg));
 
     }
 

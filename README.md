@@ -1,77 +1,36 @@
-Symfony Standard Edition
+SoftUProject
+========================
+SoftUProject е система за оценяване, тип ученически дневник.
+
+Системата има администратор, който се създава при първоначалната инсталация.
+Важно е да се запомни, че този администратор създава всички останали потребители и задава техните роли.
+Всеки следващ потребител може да стане администратор.
+Потребителите са три(1) типа, Администратор, Учител и Ученик. <br>
+Администратора създава потребителите и задава техните типове. Администратора създава, редактира и изтрива курсове(учебни предмети)(2). Администратора може да изтрива оценки.
+За да създава оценки, администратора трябва да получи ролята учител, в противен случай, той не може да създава оценки.<br>
+Оценките могат да бъдат създавани и редактирани само от създалия ги учител. Учителят може да изтрива оценките които е създал.
+
+В help секцията на страницата са описани правилата за работа със системата. Всеки потребител вижда различна help страница в зависимост от ролите които притежава.
+
 ========================
 
-**WARNING**: This distribution does not support Symfony 4. See the
-[Installing & Setting up the Symfony Framework][15] page to find a replacement
-that fits you best.
+SoftUProject е Symfony проект.
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Проекта използва 
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+*"doctrine/doctrine-bundle": "^1.6",<br>
+*"doctrine/orm": "^2.5",<br>
+*"incenteev/composer-parameter-handler": "^2.0",<br>
+*"sensio/distribution-bundle": "^5.0.19",<br>
+*"sensio/framework-extra-bundle": "^5.0.0",<br>
+*"symfony/monolog-bundle": "^3.1.0",<br>
+*"symfony/polyfill-apcu": "^1.0",<br>
+*"symfony/swiftmailer-bundle": "^2.6.4",<br>
+*"symfony/symfony": "3.4.^",<br>
+*"twig/twig": "^1.0||^2.0"<br>
 
-What's inside?
---------------
 
-The Symfony Standard Edition is configured with the following defaults:
+========================
 
-  * An AppBundle you can use to start coding;
-
-  * Twig as the only configured template engine;
-
-  * Doctrine ORM/DBAL;
-
-  * Swiftmailer;
-
-  * Annotations enabled for everything.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
-
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
-[15]: https://symfony.com/doc/current/setup.html
+(1) в настоящата версия типовете са 3, но в следващата се предвижда добавянето на тип Родител<br>
+(2) За да бъде изтрит даден кур то той трябва да няма създадени оценки. Администратора може да изтрива оценки<br>

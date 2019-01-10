@@ -2,6 +2,9 @@
 
 {% block main %}
 
+    {% if app.user %}
+    <p class="lead">You are logged already!</p>
+    {% else %}
     <div class="container body-content span=8 offset=2">
         <form class="form-horizontal" name="authenticate" action="{{ path('security_login') }}" method="post">
             <fieldset>
@@ -28,4 +31,5 @@
             </fieldset>
         </form>
     </div>
+    {% endif %}
 {% endblock %}
