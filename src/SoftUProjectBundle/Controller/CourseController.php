@@ -2,6 +2,7 @@
 
 namespace SoftUProjectBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SoftUProjectBundle\Entity\Course;
 use SoftUProjectBundle\Entity\Evaluation;
 use SoftUProjectBundle\Form\CourseType;
@@ -16,6 +17,9 @@ class CourseController extends Controller
      */
     public function showCourses(){
         $courses=$this->getDoctrine()->getRepository(Course::class)->findAll();
+        if($courses === null){
+            return $this->redirectToRoute('course_create');
+        }
         return $this->render('courses/showall.html.twig', array('courses'=>$courses));
     }
 
