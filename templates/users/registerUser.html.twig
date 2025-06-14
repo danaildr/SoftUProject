@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    {% if app.user %}
+        {% if app.user.isAdmin %}
+        <div class="container mt-4">
+            <h2>Create New User</h2>
+
+            {% if errorMsg %}
+                <div class="alert alert-danger">{{ errorMsg }}</div>
+            {% endif %}
+
+            {{ form_start(userForm, {'attr': {'class': 'mt-4'}}) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            {{ form_label(userForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.email, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.email) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(userForm.password, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.password, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.password) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(userForm.fullName, 'Full Name', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.fullName, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.fullName) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(userForm.city, 'City', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.city, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.city) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            {{ form_label(userForm.address, 'Address', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.address, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.address) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(userForm.phone, 'Phone', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.phone, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.phone) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(userForm.birthday, 'Birthday', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(userForm.birthday, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(userForm.birthday) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(userForm.userRoles, 'Roles', {'label_attr': {'class': 'form-label'}}) }}
+                            <div class="form-check-container">
+                                {{ form_widget(userForm.userRoles, {'attr': {'class': 'form-check-input'}}) }}
+                            </div>
+                            {{ form_errors(userForm.userRoles) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                    <a href="{{ path('users') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            {{ form_end(userForm) }}
+        </div>
+        {% endif %}
+    {% else %}
+        <hr class="my-4">
+        <p class="lead">Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!</p>
+        <hr class="my-4">
+        <p class="lead">If you do not have a registration, please contact your administrator to get a name and password.<br>
+            Only users registered by the administrator can access this site.</p>
+    {% endif %}
+{% endblock %}

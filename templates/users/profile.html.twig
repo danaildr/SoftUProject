@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+
+    {% if app.user %}
+
+        <hr class="my-4">
+        <p class="lead">
+            Name: {{ user.fullName }}
+        </p>
+        <p class="lead">
+            Email: {{ user.email }}
+        </p>
+        <p class="lead">
+            Adres: {{ user.city }} {{ user.address }}
+        </p>
+        <p class="lead">
+            Byrth day: {{ user.birthday | date("d/M/Y") }}
+        </p>
+        <p class="lead">
+            Phone: {{ user.phone }}
+        </p>
+        <p class="lead">
+            This user is:  {{ user.getRoles() | join(' | ') }}
+        </p>
+        {% if app.user.isTeacher and user.isStudent %}
+            <a class="btn btn-info" href="/evaluation/create/{{ user.id }}">Give Evaluation</a>
+        {% endif %}
+        {% if user.id is same as (app.user.id) or app.user.isAdmin %}
+            <a class="btn btn-warning" href="/profile/{{ user.id }}/edit">Edit Profile</a>
+            {% if app.user.isAdmin %}
+                <a class="btn btn-primary" href="/profile/{{ user.id }}/edit/roles">Edit/Give roles</a>
+            {% endif %}
+        {% endif %}
+        <table class="table">
+            <tr><th colspan="5">Reseaved evaluation</th> </tr>
+            <tr>
+                <th>Course</th>
+                <th>Value</th>
+                <th>Comment</th>
+                <th>Teacher</th>
+                <th>Date</th>
+            </tr>
+            {% for evaluation in evaluations %}
+                <tr>
+                    <td>{{ evaluation.course.name }}</td>
+                    <td>{{ evaluation.value }}</td>
+                    <td>{{ evaluation.comment }}</td>
+                    <td>{{ evaluation.teacher.fullName }}</td>
+                    <td>{{ evaluation.dateAdded| date("d/M/Y") }}</td>
+                    <td><a class="btn btn-success" href="/evaluation/{{ evaluation.id }}">View</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <hr>
+        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        <hr>
+    {% endif %}
+
+{% endblock %}

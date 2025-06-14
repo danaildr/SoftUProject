@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    {% if app.user %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Управление на роли</h2>
+            {% if app.user.isAdmin %}
+                <a href="{{ path('role_create') }}" class="btn btn-primary">Създай нова роля</a>
+            {% endif %}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Role Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role in roles %}
+                    <tr>
+                        <td>{{ role.id }}</td>
+                        <td>{{ role.name }}</td>
+                        <td>
+                            {% if app.user.isAdmin %}
+                                <a class="btn btn-sm btn-warning" href="{{ path('role_edit', {'id': role.id}) }}">Edit</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center">No roles created</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <hr class="my-4">
+        You are not logged in. Please <a href="{{ path('security_login') }}">login</a>!
+        <hr class="my-4">
+    {% endif %}
+{% endblock %}
