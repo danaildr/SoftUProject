@@ -39,4 +39,37 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Find all users with their roles eagerly loaded to avoid N+1 queries
+     *
+     * @return User[]
+     */
+    public function findAllWithRoles(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.userRoles', 'r')
+            ->addSelect('r')
+            ->orderBy('u.fullName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find users by role name with roles eagerly loaded
+     *
+     * @param string $roleName
+     * @return User[]
+     */
+    public function findByRoleName(string $roleName): array
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.userRoles', 'r')
+            ->addSelect('r')
+            ->where('r.name = :roleName')
+            ->setParameter('roleName', $roleName)
+            ->orderBy('u.fullName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

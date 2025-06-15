@@ -134,11 +134,12 @@ class CourseController extends AbstractController
         }
 
         $isEmpty = $this->isEmpty($id, $entityManager);
-        $evaluations = $entityManager->getRepository(Evaluation::class)->findBy(["courseid" => $id]);
+        // Use optimized method with eager loading to avoid N+1 queries
+        $evaluations = $entityManager->getRepository(Evaluation::class)->findByCourseWithRelations($id);
 
         return $this->render('courses/showone.html.twig', [
-            'course' => $course, 
-            'evaluations' => $evaluations, 
+            'course' => $course,
+            'evaluations' => $evaluations,
             'isEmpty' => $isEmpty
         ]);
     }

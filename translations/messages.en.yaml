@@ -1,0 +1,202 @@
+# Navigation
+nav:
+  courses: "Courses"
+  evaluation: "Evaluation"
+  help: "Help"
+  register: "Register"
+  login: "Login"
+  logout: "Logout"
+  my_profile: "My Profile"
+  users: "Users"
+  settings: "Settings"
+
+# Titles
+title:
+  site_name: "SoftUProject"
+  hello: "Hello, %name%!"
+  courses: "Courses"
+  evaluation: "Evaluation"
+  users: "Users"
+  help: "Help"
+  settings: "Settings"
+  profile: "Profile"
+
+# Buttons
+button:
+  create: "Create"
+  edit: "Edit"
+  delete: "Delete"
+  save: "Save"
+  cancel: "Cancel"
+  back: "Back"
+  view: "View"
+  give_evaluation: "Give Evaluation"
+  create_course: "Create Course"
+  create_user: "Create User"
+  manage_roles: "Manage Roles"
+
+# Forms
+form:
+  email: "Email"
+  password: "Password"
+  full_name: "Full Name"
+  city: "City"
+  address: "Address"
+  phone: "Phone"
+  birthday: "Birthday"
+  language: "Language"
+  roles: "Roles"
+  content: "Content"
+  course_name: "Course Name"
+  course_description: "Course Description"
+
+# Messages
+message:
+  not_logged_in: "You are not logged in. Please log in!"
+  access_denied: "You don't have access to this page."
+  success_save: "Saved successfully!"
+  success_delete: "Deleted successfully!"
+  error_occurred: "An error occurred!"
+
+
+
+# Settings
+settings:
+  language_selection: "Language Selection"
+  profile_edit: "Profile Edit"
+  current_language: "Current Language"
+  select_language: "Select Language"
+  bulgarian: "Български"
+  english: "English"
+
+# Pages
+page:
+  login: "Login"
+  register: "Register"
+  new_user: "New User"
+  create_course: "Create Course"
+  edit_course: "Edit Course"
+  delete_course: "Delete Course"
+  create_evaluation: "Create Evaluation"
+  edit_evaluation: "Edit Evaluation"
+  delete_evaluation: "Delete Evaluation"
+  manage_roles: "Manage Roles"
+  create_role: "Create Role"
+  edit_role: "Edit Role"
+  all_users_with_roles: "All Users with Roles"
+
+# Tables
+table:
+  id: "ID"
+  name: "Name"
+  email: "Email"
+  full_name: "Full Name"
+  roles: "Roles"
+  actions: "Actions"
+  options: "Options"
+  role_name: "Role Name"
+  admins: "Admins"
+  teachers: "Teachers"
+  students: "Students"
+  users_with_other_roles: "Users with Other Roles"
+  no_roles_created: "No roles created"
+  no_users: "No users"
+  course: "Course"
+  teacher: "Teacher"
+  student: "Student"
+  evaluation: "Evaluation"
+  comment: "Comment"
+  date: "Date"
+  number: "number"
+  value: "Value"
+  received_evaluations: "Received Evaluations"
+  given_evaluations: "Given Evaluations"
+
+# Status messages
+status:
+  logged_already: "You are logged already!"
+  not_logged_in: "You are not logged in. Please log in!"
+  no_registration: "If you do not have a registration, please contact your administrator to get a name and password."
+  admin_only_access: "Only users registered by the administrator can access this site."
+  access_to_courses: "you have access to the following courses:"
+  create_new_course: "Create new course"
+
+# Forms - labels
+label:
+  email: "Email"
+  password: "Password"
+  full_name: "Full Name"
+  city: "City"
+  address: "Address"
+  phone: "Phone"
+  birthday: "Birthday"
+  select_roles: "Select Roles:"
+
+# Placeholder texts
+placeholder:
+  email: "email"
+  password: "password"
+  full_name: "full name"
+  city: "city"
+  address: "address"
+  phone: "phone"
+
+# Additional messages
+additional:
+  no_roles: "No roles"
+  assign_role: "Assign Role"
+  users_without_roles: "Users without Roles"
+  settings_saved: "Settings saved successfully!"
+
+# Help page
+help:
+  title: "Help"
+
+  # For unauthenticated users
+  guest:
+    need_account: "To use this page, you need to have a created user account. You can get your login credentials from your administrator."
+    have_account: "If you already have a created user account and have received your login credentials, you can use the link"
+    first_install: "If the system has just been installed, there is no administrator yet. You need to register the first user, who automatically becomes an administrator."
+    register_first: "To register the first user, use the link"
+
+  # For administrators
+  admin:
+    setup_required: "For proper functioning of the page, it is necessary to create users and courses."
+    courses_section: "First create courses, to create a course go to"
+    courses_create: "and then select the button"
+    courses_form: "Then fill out the form correctly."
+    courses_unique: "For the form to be correct, you need to choose a unique course name"
+    courses_manage: "After you create a course, it will appear on the page"
+    courses_edit: "Every created course can be edited, and every course that has no recorded grade can be deleted."
+
+    users_section: "Then create users, to create a user go to"
+    users_create: "and then select the button"
+    users_form: "Then fill out the form correctly."
+    users_unique: "For the form to be correct, you need to choose a unique e-mail for each user, fill in the other fields as well."
+    users_roles: "After you create a user, go back to"
+    users_roles_button: "then select the button"
+    users_roles_access: "You will have access to all users and a list of their roles. Initially, only the administrator will have an assigned role. Next to each user there is a View profile button. Clicking this button will give you access to the user's profile."
+    users_profile: "In the user's profile you have the ability to edit the user's information (Edit button) and add a new role to the user (Edit/Give roles button). Clicking this button will give you information about which roles are currently active for this user, as well as which roles you can add to them."
+    users_display: "After you give a role to the user, they will appear in"
+    users_categories: "Users will be shown in 3 lists, arranged as follows-> administrators, teachers, students. If a user has more than one role, they will be shown in the lists where they belong."
+    teacher_role: "If you want the administrator to be able to give grades to students, you need to add the Teacher role to them. Only teachers will see the Give Evaluation button."
+
+  # For teachers
+  teacher:
+    evaluations_view: "From the link"
+    evaluations_access: "you can see all evaluations."
+    evaluations_delete: "*** Only administrators and teachers who gave a particular evaluation can delete it***"
+    give_evaluation: "To give an evaluation to a student, go to"
+    give_evaluation_button: "then next to the student's name you have a Give Evaluation button."
+    evaluation_form: "When you click this button, a form for giving the evaluation opens. You must fill out the form correctly, in the Value field you must write a number from 2 to 6, using \".\"(dot) as decimal separator, not \",\"(comma)."
+    evaluation_content: "In the Content field, write a note, explanation of why this grade is exactly like that. From the dropdown menu below this field, select the course for which this evaluation is."
+    evaluation_edit: "After creating the evaluation, it can be edited, but only by its creator."
+
+  # For students
+  student:
+    dashboard_info: "When you log into the site, you will be redirected to your"
+    dashboard_grades: "You will get a list of all the grades you have received. You can see details about the grade from the View button."
+    all_evaluations: "If you go to"
+    all_evaluations_view: "you will see a list of all grades of all students."
+    profile_access: "From the button"
+    profile_details: "you can see details about your profile. You can edit your information through the Edit button."

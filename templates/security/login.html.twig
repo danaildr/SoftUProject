@@ -1,31 +1,33 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'page.login'|trans }}{% endblock %}
+
 {% block main %}
 
     {% if app.user %}
-    <p class="lead">You are logged already!</p>
+    <p class="lead">{{ 'status.logged_already'|trans }}</p>
     {% else %}
     <div class="container body-content span=8 offset=2">
         <form class="form-horizontal" name="authenticate" action="{{ path('security_login') }}" method="post">
             <fieldset>
-                <legend>Login</legend>
+                <legend>{{ 'page.login'|trans }}</legend>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Email</label>
+                    <label class="col-sm-4 control-label">{{ 'label.email'|trans }}</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="_username">
+                        <input type="text" class="form-control" id="inputEmail" placeholder="{{ 'placeholder.email'|trans }}" name="_username">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Password</label>
+                    <label class="col-sm-4 control-label">{{ 'label.password'|trans }}</label>
                     <div class="col-sm-4">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="_password">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="{{ 'placeholder.password'|trans }}" name="_password">
                     </div>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary">{{ 'nav.login'|trans }}</button>
                     </div>
                 </div>
             </fieldset>

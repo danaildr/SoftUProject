@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.settings'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1 class="display-5">{{ 'title.settings'|trans }}</h1>
+        <hr class="my-4">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{ 'settings.language_selection'|trans }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>{{ 'settings.current_language'|trans }}:</strong> 
+                            {% if app.request.locale == 'bg' %}
+                                {{ 'settings.bulgarian'|trans }}
+                            {% else %}
+                                {{ 'settings.english'|trans }}
+                            {% endif %}
+                        </p>
+                        
+                        {{ form_start(form) }}
+                            <div class="form-group">
+                                {{ form_label(form.locale) }}
+                                {{ form_widget(form.locale) }}
+                                {{ form_errors(form.locale) }}
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form_widget(form.save) }}
+                                <a href="{{ path('homepage') }}" class="btn btn-secondary">{{ 'button.cancel'|trans }}</a>
+                            </div>
+                        {{ form_end(form) }}
+                        
+                        <hr>
+                        
+                        <h6>{{ 'settings.select_language'|trans }}:</h6>
+                        <div class="btn-group" role="group">
+                            <a href="{{ path('change_language', {'locale': 'bg'}) }}" 
+                               class="btn btn-outline-primary {% if app.request.locale == 'bg' %}active{% endif %}">
+                                {{ 'settings.bulgarian'|trans }}
+                            </a>
+                            <a href="{{ path('change_language', {'locale': 'en'}) }}" 
+                               class="btn btn-outline-primary {% if app.request.locale == 'en' %}active{% endif %}">
+                                {{ 'settings.english'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{ 'settings.profile_edit'|trans }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ 'settings.profile_edit'|trans }} - {{ 'title.profile'|trans }}</p>
+                        <a href="/profile/{{ user.id }}/edit" class="btn btn-primary">{{ 'button.edit'|trans }} {{ 'title.profile'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

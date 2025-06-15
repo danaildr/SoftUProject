@@ -55,7 +55,7 @@
                 {{ form_start(deleteForm, {'attr': {'class': 'form-horizontal'}}) }}
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-4">
-                            <a class="btn btn-default" href="{{ path('all_evaluation') }}">Cancel</a>
+                            <a class="btn btn-default" href="{{ path('all_evaluation') }}">{{ 'button.cancel'|trans }}</a>
                             {{ form_widget(deleteForm.delete) }}
                         </div>
                     </div>

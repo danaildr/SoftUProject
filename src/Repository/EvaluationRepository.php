@@ -21,6 +21,112 @@ class EvaluationRepository extends ServiceEntityRepository
         parent::__construct($registry, Evaluation::class);
     }
 
+    /**
+     * Find all evaluations with related entities eagerly loaded to avoid N+1 queries
+     *
+     * @return Evaluation[]
+     */
+    public function findAllWithRelations(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.teacher', 't')
+            ->leftJoin('e.student', 's')
+            ->leftJoin('e.course', 'c')
+            ->addSelect('t', 's', 'c')
+            ->orderBy('e.dateAdded', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find evaluations by recipient (student) with relations eagerly loaded
+     *
+     * @param int $recipientId
+     * @param array $orderBy
+     * @return Evaluation[]
+     */
+    public function findByRecipientWithRelations(int $recipientId, array $orderBy = []): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.teacher', 't')
+            ->leftJoin('e.student', 's')
+            ->leftJoin('e.course', 'c')
+            ->addSelect('t', 's', 'c')
+            ->where('e.recipient = :recipientId')
+            ->setParameter('recipientId', $recipientId);
+
+        // Add ordering
+        foreach ($orderBy as $field => $direction) {
+            $qb->addOrderBy('e.' . $field, $direction);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find evaluations by author (teacher) with relations eagerly loaded
+     *
+     * @param int $authorId
+     * @param array $orderBy
+     * @return Evaluation[]
+     */
+    public function findByAuthorWithRelations(int $authorId, array $orderBy = []): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.teacher', 't')
+            ->leftJoin('e.student', 's')
+            ->leftJoin('e.course', 'c')
+            ->addSelect('t', 's', 'c')
+            ->where('e.authorId = :authorId')
+            ->setParameter('authorId', $authorId);
+
+        // Add ordering
+        foreach ($orderBy as $field => $direction) {
+            $qb->addOrderBy('e.' . $field, $direction);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find evaluations by course with relations eagerly loaded
+     *
+     * @param int $courseId
+     * @return Evaluation[]
+     */
+    public function findByCourseWithRelations(int $courseId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.teacher', 't')
+            ->leftJoin('e.student', 's')
+            ->leftJoin('e.course', 'c')
+            ->addSelect('t', 's', 'c')
+            ->where('e.courseid = :courseId')
+            ->setParameter('courseId', $courseId)
+            ->orderBy('e.dateAdded', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find single evaluation with relations eagerly loaded
+     *
+     * @param int $id
+     * @return Evaluation|null
+     */
+    public function findOneWithRelations(int $id): ?Evaluation
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.teacher', 't')
+            ->leftJoin('e.student', 's')
+            ->leftJoin('e.course', 'c')
+            ->addSelect('t', 's', 'c')
+            ->where('e.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Evaluation[] Returns an array of Evaluation objects
     //     */

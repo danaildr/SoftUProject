@@ -8,32 +8,135 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <style>
+            .custom-navbar {
+                background-color: #6c757d !important; /* Bootstrap secondary gray */
+                margin: 15px 20px 0 20px;
+                border-radius: 50px;
+                padding: 8px 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .navbar-brand {
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
+            .dropdown-toggle::after {
+                margin-left: 8px;
+            }
+            .dropdown-menu {
+                border-radius: 8px;
+                border: none;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                margin-top: 8px;
+            }
+            .dropdown-item {
+                padding: 8px 16px;
+                transition: background-color 0.2s ease;
+            }
+            .dropdown-item:hover {
+                background-color: #f8f9fa;
+            }
+            .nav-link {
+                font-weight: 500;
+                transition: color 0.2s ease;
+            }
+            .nav-link:hover {
+                color: #ffffff !important;
+            }
+            body {
+                background-color: #f8f9fa;
+            }
+            footer {
+                margin-top: 50px;
+            }
+            .card-footer {
+                background-color: #6c757d;
+                color: white;
+                text-align: center;
+                border-radius: 0;
+            }
+            .jumbotron {
+                background-color: white;
+                border-radius: 15px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin: 20px;
+            }
+
+            /* Responsive design for mobile */
+            @media (max-width: 768px) {
+                .custom-navbar {
+                    margin: 10px 10px 0 10px;
+                    border-radius: 25px;
+                    padding: 6px 15px;
+                }
+                .navbar-brand {
+                    font-size: 1.2rem;
+                }
+                .navbar-nav .nav-link {
+                    padding: 0.5rem 0.75rem;
+                }
+            }
+        </style>
     </head>
     <body >
         {% block header %}
             <header>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
                     <a class="navbar-brand" href="{{ path('homepage') }}">SoftUProject</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            {% if app.user %}
-                                <li class="nav-item active nav-link">{{ app.user.getFullName }}</li>
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('courses') }}">Courses</a> </li>
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('all_evaluation') }}">Evaluation</a></li>
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('users') }}">Users</a></li>
-                                <li class="nav-item active"><a class="nav-link" href="/profile/{{ app.user.getId }}">My Profile</a></li>
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('security_logout') }}">Logout</a></li>
-                            {% else %}
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('user_register') }}">REGISTER</a></li>
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('security_login') }}">LOGIN</a></li>
-                            {% endif %}
-                                <li class="nav-item active"><a class="nav-link" href="{{ path('help') }}">Help</a></li>
+                        {% if app.user %}
+                            {# Left side - Brand is already there #}
 
-                        </ul>
+                            {# Center navigation #}
+                            <ul class="navbar-nav mx-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('courses') }}">{{ 'nav.courses'|trans }}</a>
+                                </li>
+                                {% if app.user.isTeacher or app.user.isAdmin %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('all_evaluation') }}">{{ 'nav.evaluation'|trans }}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+                            {# Right side - Help button and User dropdown #}
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('help') }}">{{ 'nav.help'|trans }}</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ app.user.getFullName }}
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/profile/{{ app.user.getId }}">{{ 'nav.my_profile'|trans }}</a>
+                                        <a class="dropdown-item" href="{{ path('settings') }}">{{ 'nav.settings'|trans }}</a>
+                                        {% if app.user.isAdmin %}
+                                            <a class="dropdown-item" href="{{ path('users') }}">{{ 'nav.users'|trans }}</a>
+                                        {% endif %}
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ path('security_logout') }}">{{ 'nav.logout'|trans }}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        {% else %}
+                            {# Not logged in - show help, register, login on the right #}
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('help') }}">{{ 'nav.help'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_register') }}">{{ 'nav.register'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('security_login') }}">{{ 'nav.login'|trans }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
                     </div>
                 </nav>
             </header>

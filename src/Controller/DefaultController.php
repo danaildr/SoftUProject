@@ -20,18 +20,19 @@ class DefaultController extends AbstractController
         $currentUser = $this->getUser();
         if ($currentUser !== null) {
             $currentUserId = $currentUser->getId();
-            $evaluations = $entityManager->getRepository(Evaluation::class)->findBy(
-                ["recipient" => $currentUserId], 
+            // Use optimized methods with eager loading to avoid N+1 queries
+            $evaluations = $entityManager->getRepository(Evaluation::class)->findByRecipientWithRelations(
+                $currentUserId,
                 ["courseid" => 'DESC']
             );
-            $giveEvaluations = $entityManager->getRepository(Evaluation::class)->findBy(
-                ["authorId" => $currentUserId], 
+            $giveEvaluations = $entityManager->getRepository(Evaluation::class)->findByAuthorWithRelations(
+                $currentUserId,
                 ["courseid" => 'ASC', "dateAdded" => 'DESC']
             );
         }
 
         return $this->render('default/dashboard.html.twig', [
-            'evaluations' => $evaluations, 
+            'evaluations' => $evaluations,
             'giveEvaluation' => $giveEvaluations
         ]);
     }
@@ -39,7 +40,8 @@ class DefaultController extends AbstractController
     #[Route('/users', name: 'users')]
     public function showUsers(EntityManagerInterface $entityManager): Response
     {
-        $users = $entityManager->getRepository(User::class)->findAll();
+        // Use optimized method with eager loading to avoid N+1 queries
+        $users = $entityManager->getRepository(User::class)->findAllWithRoles();
         $admins = [];
         $teachers = [];
         $students = [];

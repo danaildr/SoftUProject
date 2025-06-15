@@ -68,17 +68,17 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Create User</button>
-                    <a href="{{ path('users') }}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">{{ 'button.create_user'|trans }}</button>
+                    <a href="{{ path('users') }}" class="btn btn-secondary">{{ 'button.cancel'|trans }}</a>
                 </div>
             {{ form_end(userForm) }}
         </div>
         {% endif %}
     {% else %}
         <hr class="my-4">
-        <p class="lead">Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!</p>
+        <p class="lead">{{ 'status.not_logged_in'|trans }} <a href="{{ path('security_login') }}">{{ 'nav.login'|trans }}</a>!</p>
         <hr class="my-4">
-        <p class="lead">If you do not have a registration, please contact your administrator to get a name and password.<br>
-            Only users registered by the administrator can access this site.</p>
+        <p class="lead">{{ 'status.no_registration'|trans }}<br>
+            {{ 'status.admin_only_access'|trans }}</p>
     {% endif %}
 {% endblock %}

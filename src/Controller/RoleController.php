@@ -39,7 +39,8 @@ class RoleController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
-        $users = $entityManager->getRepository(User::class)->findAll();
+        // Use optimized method with eager loading to avoid N+1 queries
+        $users = $entityManager->getRepository(User::class)->findAllWithRoles();
 
         return $this->render('roles/users_with_roles.html.twig', [
             'users' => $users

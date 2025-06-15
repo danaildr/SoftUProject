@@ -48,6 +48,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthday = null;
 
+    #[ORM\Column(length: 5, nullable: false)]
+    private string $locale = 'bg';
+
     #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'teacher')]
     private Collection $evaluations;
 
@@ -192,6 +195,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(?\DateTimeInterface $birthday): static
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): static
+    {
+        $this->locale = $locale;
 
         return $this;
     }

@@ -18,8 +18,9 @@ class EvaluationController extends AbstractController
     #[Route('/evaluations', name: 'all_evaluation')]
     public function showEvaluations(EntityManagerInterface $entityManager): Response
     {
-        $evaluations = $entityManager->getRepository(Evaluation::class)->findAll();
-        
+        // Use optimized method with eager loading to avoid N+1 queries
+        $evaluations = $entityManager->getRepository(Evaluation::class)->findAllWithRelations();
+
         return $this->render('evaluation/showevaluations.html.twig', [
             'evaluations' => $evaluations
         ]);
@@ -28,8 +29,9 @@ class EvaluationController extends AbstractController
     #[Route('/evaluation/{id}', name: 'evaluation_show')]
     public function showEvaluation(int $id, EntityManagerInterface $entityManager): Response
     {
-        $evaluation = $entityManager->getRepository(Evaluation::class)->find($id);
-        
+        // Use optimized method with eager loading to avoid N+1 queries
+        $evaluation = $entityManager->getRepository(Evaluation::class)->findOneWithRelations($id);
+
         if ($evaluation === null) {
             return $this->redirectToRoute('all_evaluation');
         }

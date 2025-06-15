@@ -1,22 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'title.courses'|trans }}{% endblock %}
+
 {% block main %}
     {% if app.user %}
-        <h1 class="display-5">Hello, {{ app.user.fullName }}!</h1>
+        <h1 class="display-5">{{ 'title.hello'|trans({'%name%': app.user.fullName}) }}</h1>
         <hr class="my-4">
         {% if app.user.isAdmin %}
-            <p class="lead">Create new course</p>
-            <a type="button" class="btn btn-primary" href="{{ path('course_create') }}">Create course</a><br>
+            <p class="lead">{{ 'status.create_new_course'|trans }}</p>
+            <a type="button" class="btn btn-primary" href="{{ path('course_create') }}">{{ 'button.create_course'|trans }}</a><br>
             <hr class="my-4">
         {% endif %}
-        <p class="lead">you have access to the following courses:</p>
+        <p class="lead">{{ 'status.access_to_courses'|trans }}</p>
         {% for course in courses %}
             <a type="button" class="btn btn-success" href="/courses/{{ course.id }}">{{ course.name }}</a>
         {% endfor %}
         <hr class="my-4">
     {% else %}
         <hr class="my-4">
-        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        {{ 'status.not_logged_in'|trans }} <a href="{{ path('security_login') }}">{{ 'nav.login'|trans }}</a>!
         <hr class="my-4">
     {% endif %}
 {% endblock %}

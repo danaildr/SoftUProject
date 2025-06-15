@@ -1,26 +1,28 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'page.create_role'|trans }}{% endblock %}
+
 {% block main %}
     {% if app.user %}
         <div class="container mt-4">
-            <h2>Create New Role</h2>
-            
+            <h2>{{ 'page.create_role'|trans }}</h2>
+
             {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
                 <div class="mb-3">
-                    {{ form_label(form.name, 'Role Name', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_label(form.name, 'table.role_name'|trans, {'label_attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.name) }}
                 </div>
-                
+
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Create Role</button>
-                    <a href="{{ path('roles') }}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">{{ 'page.create_role'|trans }}</button>
+                    <a href="{{ path('roles') }}" class="btn btn-secondary">{{ 'button.cancel'|trans }}</a>
                 </div>
             {{ form_end(form) }}
         </div>
     {% else %}
         <hr class="my-4">
-        You are not logged in. Please <a href="{{ path('security_login') }}">login</a>!
+        {{ 'status.not_logged_in'|trans }} <a href="{{ path('security_login') }}">{{ 'nav.login'|trans }}</a>!
         <hr class="my-4">
     {% endif %}
 {% endblock %}

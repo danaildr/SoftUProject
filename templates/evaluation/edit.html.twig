@@ -18,7 +18,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-4 control-label" for="evaluation_content">Content</label>
+                            <label class="col-sm-4 control-label" for="evaluation_content">{{ 'form.content'|trans }}</label>
                             <div class="col-sm-6">
                         <textarea class="form-control" rows="6" id="evaluation_content"
                                   name="evaluation[comment]" >{{ evaluation.comment }}</textarea>
@@ -29,8 +29,8 @@
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-4">
-                                <a class="btn btn-danger" href="{{ path('users') }}">Cancel</a>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a class="btn btn-danger" href="{{ path('users') }}">{{ 'button.cancel'|trans }}</a>
+                                <button type="submit" class="btn btn-primary">{{ 'button.save'|trans }}</button>
                             </div>
                         </div>
                     </fieldset>
@@ -39,7 +39,7 @@
         </div>
     {% else %}
         <hr class="my-4">
-        Your ar not loged in. Please <a href="{{ path('security_login') }}">loggin</a>!
+        {{ 'status.not_logged_in'|trans }} <a href="{{ path('security_login') }}">{{ 'nav.login'|trans }}</a>!
         <hr class="my-4">
     {% endif %}
 {% endblock %}

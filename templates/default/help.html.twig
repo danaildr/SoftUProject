@@ -1,55 +1,57 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'help.title'|trans }}{% endblock %}
+
 {% block main %}
-<h3 class="display-5">Help</h3>
+<h3 class="display-5">{{ 'help.title'|trans }}</h3>
     {% if not app.user %}
         <hr class="my-4">
-        <p class="lead">  За да използвате тази страница, трябва да имате създаден потребител. Вашите данни за вход може да получите от вашия администратор.<br>
-            Ако вече имате създаден потребител и сте получили своите данни за вход, може да използвате линка <a href="{{ path('security_login') }}">LOGIN</a>
+        <p class="lead">{{ 'help.guest.need_account'|trans }}<br>
+            {{ 'help.guest.have_account'|trans }} <a href="{{ path('security_login') }}">{{ 'nav.login'|trans }}</a>
         </p>
         <p class="lead">
-            Ако системата е инсталирана току-що все още няма администратор. Необходимо е да регистрирате първия потребител, който автоматично става администратор.<br>
-            За да регистрирате първия потребител използвайте линка <a href="{{ path('user_register') }}">REGISTER</a>.
+            {{ 'help.guest.first_install'|trans }}<br>
+            {{ 'help.guest.register_first'|trans }} <a href="{{ path('user_register') }}">{{ 'nav.register'|trans }}</a>.
         </p>
     {% else %}
         {% if app.user.isAdmin %}
             <hr class="my-4">
             <p class="lead">
-                За правилно функциониране на страницата, е необходимо да създадете потребители и курвове.<br>
+                {{ 'help.admin.setup_required'|trans }}<br>
             </p>
-            <p class="text-justify">Първо създайте курсове, за да създадете курс отидете на <a href="{{ path('courses') }}">Courses</a> и след това изберете бутона <a href="{{ path('course_create') }}">Create course</a>. След това попълнете формата коректно.<br>
-                За да бъде коректна формата е необходимо да изберете уникално име на курса<br>
-                След като създадете курс, той ще се появи в страницата  <a href="{{ path('courses') }}">Courses</a>. Всеки създаден курс може да бъде редактиран, а всеки курс който няма записана оценка, може да бъде изтрит.
+            <p class="text-justify">{{ 'help.admin.courses_section'|trans }} <a href="{{ path('courses') }}">{{ 'nav.courses'|trans }}</a> {{ 'help.admin.courses_create'|trans }} <a href="{{ path('course_create') }}">{{ 'button.create_course'|trans }}</a>. {{ 'help.admin.courses_form'|trans }}<br>
+                {{ 'help.admin.courses_unique'|trans }}<br>
+                {{ 'help.admin.courses_manage'|trans }} <a href="{{ path('courses') }}">{{ 'nav.courses'|trans }}</a>. {{ 'help.admin.courses_edit'|trans }}
             </p>
-            <p class="text-justify">След това създайте потребителите, за да създадете потребител отидете на <a href="{{ path('users') }}">Users</a> и след това изберете бутона <a href="{{ path('newuser_register') }}">Create new user</a>. След това попълнете формата коректно.<br>
-                За да бъде коректна формата е необходимо да изберете уникален e-mail за всеки потребител, попълнете и останалите полета.<br>
-                След като създадете потребител, отидете отново на  <a href="{{ path('users') }}">Users</a>, след това изберете бутона <a href="{{ path('roles') }}">Show all users and roles</a>.
-                Ще имате достъп до всички потребители и списък с техните роли. Първоначално само администратора ще има зададена роля. Срещу всеки потребител има бутон View profile. Натискайки този бутон ще получите достъп до профила на потребителя.
-                В профила на потребителя имате възможност да редактирате информацията за потребителя ( бутон  Edit) и да добавите нова роля на потребителя (бутон Edit/Give roles). Натискайки този бутон, ще получите информация кои са активните роли на този потребител в момента, също и кои роли можете да му добавите.
-                След като дадете роля на потребителя, той ще се появи в <a href="{{ path('users') }}">Users</a>. Потребителите ще бъдат показани в 3 списъка, като ще бъдат подредени както следва-> администратори, учители, ученици. Ако потребителят има повече от една роля, той ще бъде показан в тези списъци в които присъства.
-                Ако искате администратора да може да дава оценки на учениците, то трябва да му добавите роля Teacher. Само учителите ще виждат бутона Give Evaluation.
+            <p class="text-justify">{{ 'help.admin.users_section'|trans }} <a href="{{ path('users') }}">{{ 'nav.users'|trans }}</a> {{ 'help.admin.users_create'|trans }} <a href="{{ path('newuser_register') }}">{{ 'button.create_user'|trans }}</a>. {{ 'help.admin.users_form'|trans }}<br>
+                {{ 'help.admin.users_unique'|trans }}<br>
+                {{ 'help.admin.users_roles'|trans }} <a href="{{ path('users') }}">{{ 'nav.users'|trans }}</a>, {{ 'help.admin.users_roles_button'|trans }} <a href="{{ path('roles') }}">{{ 'button.manage_roles'|trans }}</a>.
+                {{ 'help.admin.users_roles_access'|trans }}
+                {{ 'help.admin.users_profile'|trans }}
+                {{ 'help.admin.users_display'|trans }} <a href="{{ path('users') }}">{{ 'nav.users'|trans }}</a>. {{ 'help.admin.users_categories'|trans }}
+                {{ 'help.admin.teacher_role'|trans }}
             </p>
 
         {% endif %}
         {% if app.user.isTeacher %}
             <hr class="my-4">
             <p class="text-justify">
-                От линка <a href="{{ path('all_evaluation') }}">Evaluation</a> можете да видите всички оценки.<br>
-                *** Само администратори и учителите които са дали дадена оценка могат да я изтрият***<br>
+                {{ 'help.teacher.evaluations_view'|trans }} <a href="{{ path('all_evaluation') }}">{{ 'nav.evaluation'|trans }}</a> {{ 'help.teacher.evaluations_access'|trans }}<br>
+                {{ 'help.teacher.evaluations_delete'|trans }}<br>
             </p>
             <p class="text-justify">
-                За да дадете оценка на даден ученик, отидете в <a href="{{ path('users') }}">Users</a>, след това срещу името на ученика имате бутон Give Evaluation.
-                Когато натиснете този бутон, се отваря форма за даване на оценката. Трябва да попълните коректно формата, в полете Value трябва да напишете число от 2 до 6, като за десетичен разделител използвате "."(точка), а не ","(запетая).
-                В полето Content запишете забележка, пояснение, защо тази оценка е точно такава. От падащото меню под това поле изберете курса за който е тази оценка.
-                След създаване на оценката, тя може да бъде редактирана, но само от създаделя ѝ.
+                {{ 'help.teacher.give_evaluation'|trans }} <a href="{{ path('users') }}">{{ 'nav.users'|trans }}</a>, {{ 'help.teacher.give_evaluation_button'|trans }}
+                {{ 'help.teacher.evaluation_form'|trans }}
+                {{ 'help.teacher.evaluation_content'|trans }}
+                {{ 'help.teacher.evaluation_edit'|trans }}
             </p>
         {% endif %}
         {% if app.user.isStudent %}
             <hr class="my-4">
             <p class="lead">
-                Когато се впишете в сайта, ще бъдете пренасочени към вашия <a href="{{ path('homepage') }}">Dashboard</a>. Ще получите списък със всички оценки които сте получили. Може да видите подробности за оценката от бутона View.
-                Ако отидете на  <a href="{{ path('all_evaluation') }}">Evaluation</a>, ще видите списък със всички оценки на всички ученици.<br>
-                От бутона <a href="/profile/{{ app.user.id }}">My Profile</a> може да видите подробности за вашия профил. Може да редактирате информацията си чрез бутона Edit.
+                {{ 'help.student.dashboard_info'|trans }} <a href="{{ path('homepage') }}">Dashboard</a>. {{ 'help.student.dashboard_grades'|trans }}
+                {{ 'help.student.all_evaluations'|trans }} <a href="{{ path('all_evaluation') }}">{{ 'nav.evaluation'|trans }}</a>, {{ 'help.student.all_evaluations_view'|trans }}<br>
+                {{ 'help.student.profile_access'|trans }} <a href="/profile/{{ app.user.id }}">{{ 'nav.my_profile'|trans }}</a> {{ 'help.student.profile_details'|trans }}
             </p>
         {% endif %}
     {% endif %}
